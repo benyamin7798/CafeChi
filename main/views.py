@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from .models import Image
 
-class HomePageView(TemplateView):
-    template_name = 'base.html'
+def home(request):
+    images = Image.objects.all()
+    return render(request, 'home.html', {'images': images})

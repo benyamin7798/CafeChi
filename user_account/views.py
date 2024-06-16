@@ -1,7 +1,6 @@
 from django.shortcuts import render
-
+from .models import Image
 # Create your views here.
 
-"""
-this is alaki"""
-print("hello")
+
+

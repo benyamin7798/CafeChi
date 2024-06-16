@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Image Slider</title>
+<style>
+  .slider {
+    position: relative;
+    width: 2960px; /* Adjust as needed */
+    height: 4950px; /* Adjust as needed */
+    margin: 200px 500px;
+    overflow: hidden;
+  }
+  .slide {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .slide.active {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="slider" id="slider">
+  <!-- Slides -->
+  <div class="slide active"><img src="../coffee1.jpg" alt="Image 1"></div>
+  <!--
+  <div class="slide"><img src="../Pictures/coffee2.jpg" alt="Image 2" ></div>
+  <div class="slide"><img src="../Pictures/coffee3.jpg" alt="Image 3" ></div>
+  
+  <div class="slide"><img src="\D:\Git\coffee5" alt="Image 10" height="300" , width="500"></div> 
+-->
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+function switchSlide() {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % totalSlides;
+  slides[currentSlide].classList.add('active');
+}
+
+setInterval(switchSlide, 3000); // Switch every 3 seconds
+</script>
+
+</body>
+</html>
