@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Image
+#from .models import Image
 
 def home(request):
     images = Image.objects.all()
