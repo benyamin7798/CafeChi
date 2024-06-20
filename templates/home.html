@@ -80,6 +80,12 @@
         height: 100%;
         object-fit: cover; /* This will ensure that the aspect ratio is maintained */
       }
+
+      ul.sub {
+        display: none;
+        position: absolute;
+        z-index: 1; /* Add this line to bring the submenu forward */
+      }
           
     </style>
   </head>
@@ -109,13 +115,7 @@
             <li><a href="">نوشیدنی سرد</a></li>
             <li><a href="">نوشیدنی گرم</a></li>
             <li><a href="">بستنی</a></li>
-            <li
-              style="
-                font-size: 150px;
-                border-bottom-left-radius: 20px;
-                border-bottom-right-radius: 20px;
-              "
-            >
+            <li>
               <a href="">کیک</a>
             </li>
           </ul>
