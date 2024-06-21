@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css
+    "
+    />
+    <title>CafeChi</title>
+    <style>
+      @font-face {
+        font-family: Vazir;
+        src: url(../static/Fonts/Vazir-Bold.woff2);
+      }
+      @font-face {
+        font-family: Nastaligh;
+        src: url(../static/Fonts/IranNastaliq.ttf);
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      div.nav {
+        direction: rtl;
+        background-color: #5e3023;
+        padding-right: 10px;
+      }
+      ul.menu li {
+        list-style: none;
+        display: inline-block;
+        /* position: relative; */
+      }
+      ul.menu li a {
+        display: inline-block;
+        text-decoration: none;
+        padding: 30px;
+        color: #f3e9dc;
+        font-family: Vazir;
+      }
+      ul.menu li a:hover {
+        background: #c08552;
+        transition: 0.4s;
+      }
+      ul.sub {
+        display: none;
+        position: absolute;
+      }
+      ul.menu li:hover ul.sub {
+        display: block;
+        color: #c08552;
+        transition: 0.4s;
+      }
+      ul.sub li {
+        display: block;
+        background-color: #c08552;
+        border-bottom: 3px solid #5e3023;
+      }
+      ul.sub li a:hover {
+        color: #5e3023;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        transition: 0.3s;
+      }
+      .product-box {
+        width: 200px;
+        height: 300px;
+        margin: 20px;
+        display: inline-block;
+        border-radius: 25px;
+        box-shadow: 0px 5px 10px gray;
+      }
+      .product-box p {
+        font-family: Vazir;
+        text-align: center;
+      }
+      .product-container {
+        background-color: rgb(208, 210, 211);
+        display: block;
+        padding-right: 30px;
+        direction: rtl;
+      }
+      div.product-box button {
+        background-color: #5e3023;
+        color: #dab49d;
+      }
+      div.product-box button:hover {
+        box-shadow: 0px 5px 5px gray;
+        background-color: #f3e9dc;
+        color: #5e3023;
+        transition: 0.4s;
+      }
+    </style>
+  </head>
+  <body style="background-color: #dab49d">
+    <div class="nav" style="margin-top: 0px">
+      <ul class="menu" style="margin: 0%">
+        <li
+          style="
+            font-family: Nastaligh;
+            font-size: 40px;
+            color: #c08552;
+            padding-left: 30px;
+          "
+        >
+          کافه چی
+        </li>
+        <li>
+          <a href="">منو</a>
+
+          <ul class="sub">
+            <li><a href="">نوشیدنی سرد</a></li>
+            <li><a href="">نوشیدنی گرم</a></li>
+            <li><a href="">بستنی</a></li>
+            <li
+              style="
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+              "
+            >
+              <a href="">کیک</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="">سوابق خرید</a></li>
+        <li><a href="">سبد خرید</a></li>
+        <li><a href="">ورود به حساب</a></li>
+      </ul>
+    </div>
+    <!-- اسلایدر -->
+    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="truev">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="../static/Photos/Photo1.jpg"
+            class="d-block w-100"
+            alt="..."
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="../static/Photos/Photo2.jpg"
+            class="d-block w-100"
+            alt="..."
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="../static/Photos/Photo3.jpg"
+            class="d-block w-100"
+            alt="..."
+          />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleRide"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleRide"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <!-- پرفروش ها -->
+    <div class="product-container">
+      <p
+        style="
+          font-family: Nastaligh;
+          font-size: 60px;
+          display: block;
+          margin: 0px;
+          margin-right: 25px;
+          color: #5e3023;
+        "
+      >
+        محبوب دل ها
+      </p>
+      <div
+        class="product-box"
+        style="
+          background: url(https://vendagraph.ir/wp-content/uploads/2020/02/Capuchino-image.jpg),
+            white;
+          background-size: 200px;
+          background-repeat: no-repeat;
+        "
+      >
+        <p id="product-name" style="margin-top: 180px; margin-bottom: 0px">
+          کاپوچینو
+        </p>
+        <p id="product-price" style="margin-top: 2px">2800 تومان</p>
+        <button
+          class="buy-button"
+          style="
+            width: 120px;
+            margin-left: 40px;
+            margin-right: 40px;
+            border: none;
+            border-radius: 10px;
+            font-family: Vazir;
+          "
+        >
+          افزودن به سبد خرید
+        </button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js
+    "></script>
+  </body>
+</html>
