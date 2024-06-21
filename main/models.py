@@ -27,9 +27,14 @@ class Product(models.Model):
     Coffee = models.IntegerField(validators=[max_integer_validator],default=0)
     Flour = models.IntegerField(validators=[max_integer_validator],default=0)
     Chocolate = models.IntegerField(validators=[max_integer_validator],default=0)
+    milk = models.IntegerField(validators=[max_integer_validator],default=0)
     vertical = models.CharField(max_length=10,choices=PRODUCT_CHOICES,default=HOT_DRINK)
     price = models.IntegerField(validators=[max_integer_validator],default=0)
 
-    image = models.ImageField(upload_to='../static/media')
+    image = models.ImageField(upload_to='product_images',blank=True,null=True)
+
+
+    def __str__(self):
+        return self.name
     
 
