@@ -113,22 +113,22 @@
           <a href="">منو</a>
 
           <ul class="sub">
-            <li><a href="">نوشیدنی سرد</a></li>
-            <li><a href="">نوشیدنی گرم</a></li>
-            <li><a href="">بستنی</a></li>
+            <li><a href="{% url 'product_list' 'CD' %}">نوشیدنی سرد</a></li>
+            <li><a href="{% url 'product_list' 'HD' %}">نوشیدنی گرم</a></li>
+            <li><a href="{% url 'product_list' 'IC' %}">بستنی</a></li>
             <li
               style="
                 border-bottom-left-radius: 20px;
                 border-bottom-right-radius: 20px;
               "
             >
-              <a href="">کیک</a>
+              <a href="{% url 'product_list' 'CAKE' %}">کیک</a>
             </li>
           </ul>
         </li>
         <li><a href="">سوابق خرید</a></li>
         <li><a href="">سبد خرید</a></li>
-        <li><a href="">ورود به حساب</a></li>
+        <li><a href="{% url 'login'%}">ورود به حساب</a></li>
       </ul>
     </div>
     <!-- اسلایدر -->
