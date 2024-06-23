@@ -29,4 +29,5 @@ def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     return render(request, 'product_list.html', {'products': products, 'vertical': vertical})
 
-
+def alaki(request):
+    return render(request,'alaki.html')

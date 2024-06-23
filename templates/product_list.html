@@ -1,14 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {%for i in products%}
-    <p>name is {{i.name}}</p><br>
-    {%endfor%}
 
-</body>
-</html>
+
+{% block content %}
+<h2>Products</h2>
+<div id="products">
+    {% for product in products %}
+        <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
+            <h3>{{ product.name }}</h3>
+            <p>Price: {{ product.price }}</p>
+            <button class="add">+</button>
+            <span class="quantity" id="quantity-{{ product.id }}">0</span>
+            <button class="remove">-</button>
+        </div>
+    {% endfor %}
+</div>
+<form id="checkout-form" action="{% url 'checkout' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Checkout</button>
+</form>
+
+<script>
+    const cart = {};
+
+    document.querySelectorAll('.add').forEach(button => {
+        button.addEventListener('click', function() {
+            const productDiv = this.parentElement;
+            const productId = productDiv.getAttribute('data-id');
+            const productPrice = parseFloat(productDiv.getAttribute('data-price'));
+
+            if (!cart[productId]) {
+                cart[productId] = { quantity: 0, price: productPrice };
+            }
+            cart[productId].quantity += 1;
+
+            document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+        });
+    });
+
+    document.querySelectorAll('.remove').forEach(button => {
+        button.addEventListener('click', function() {
+            const productDiv = this.parentElement;
+            const productId = productDiv.getAttribute('data-id');
+
+            if (cart[productId] && cart[productId].quantity > 0) {
+                cart[productId].quantity -= 1;
+                document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+                if (cart[productId].quantity === 0) {
+                    delete cart[productId];
+                }
+            }
+        });
+    });
+
+    document.getElementById('checkout-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('cart', JSON.stringify(cart));
+        
+        console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
+
+        fetch("{% url 'checkout' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: formData
+        }).then(response => response.json()).then(data => {
+            if (data.success) {
+                window.location.href = "{% url 'order_summary' %}";
+            } else {
+                alert('Something went wrong!');
+            }
+        });
+    });
+</script>
+{% endblock %}
