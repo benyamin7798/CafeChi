@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 def max_integer_validator(amount):
     if amount>9999999999:
         raise Exception('')
@@ -37,4 +38,23 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+
+class Warehouse(models.Model):
+    sugar = models.IntegerField(default=0)
+    coffee = models.IntegerField(default=0)
+    flour = models.IntegerField(default=0)
+    chocolate = models.IntegerField(default=0)
+    milk = models.IntegerField(default=0)
+
+    # مطمئن میشود که فقط یک نمونه از کلاس انبار، ساخته شده است
+    def save(self, *args, **kwargs):
+        if Warehouse.objects.exists() and not self.pk:
+            raise ValidationError('There can be only one Warehouse instance.')
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    def __str__(self):
+        return 'Warehouse'
 
