@@ -31,3 +31,6 @@ def product_list_view(request, vertical):
 
 def alaki(request):
     return render(request,'alaki.html')
+
+def management(request):
+    return render(request,'management.html')

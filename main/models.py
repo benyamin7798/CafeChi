@@ -45,7 +45,6 @@ class Warehouse(models.Model):
     flour = models.IntegerField(default=0)
     chocolate = models.IntegerField(default=0)
     milk = models.IntegerField(default=0)
-    sales_count = models.IntegerField(default=0)
 
     # مطمئن میشود که فقط یک نمونه از کلاس انبار، ساخته شده است
     def save(self, *args, **kwargs):
