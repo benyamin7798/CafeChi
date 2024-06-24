@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from shopping_cart.models import Product ,PurchaseHistory
+from collections import defaultdict
+from datetime import datetime
 
 
 class HomePageView(TemplateView):
@@ -42,4 +44,9 @@ def management(request):
 def purchase_history(request):
     user = request.user
     purchases = PurchaseHistory.objects.filter(user=user).order_by('-purchase_date')
-    return render(request, 'purchase_history.html', {'purchases': purchases})
+
+    grouped_purchases = defaultdict(list)
+    for purchase in purchases:
+        grouped_purchases[purchase.purchase_date.date()].append(purchase)
+    
+    return render(request, 'purchase_history.html', {'grouped_purchases': dict(grouped_purchases), 'user': user})
