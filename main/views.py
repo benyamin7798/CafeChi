@@ -4,6 +4,8 @@ from django.views.generic import ListView,TemplateView
 from .models import Product
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from shopping_cart.models import Product ,PurchaseHistory
 
 
 class HomePageView(TemplateView):
@@ -31,3 +33,13 @@ def product_list_view(request, vertical):
 
 def alaki(request):
     return render(request,'alaki.html')
+
+def management(request):
+    return render(request,'management.html')
+
+
+@login_required
+def purchase_history(request):
+    user = request.user
+    purchases = PurchaseHistory.objects.filter(user=user).order_by('-purchase_date')
+    return render(request, 'purchase_history.html', {'purchases': purchases})

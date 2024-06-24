@@ -34,6 +34,8 @@ class Product(models.Model):
 
     image = models.ImageField(upload_to='product_images',blank=True,null=True)
 
+    sales_count = models.PositiveIntegerField(default=0,editable=False)
+
 
     def __str__(self):
         return self.name
@@ -45,7 +47,6 @@ class Warehouse(models.Model):
     flour = models.IntegerField(default=0)
     chocolate = models.IntegerField(default=0)
     milk = models.IntegerField(default=0)
-    sales_count = models.IntegerField(default=0)
 
     # مطمئن میشود که فقط یک نمونه از کلاس انبار، ساخته شده است
     def save(self, *args, **kwargs):
