@@ -34,6 +34,8 @@ class Product(models.Model):
 
     image = models.ImageField(upload_to='product_images',blank=True,null=True)
 
+    sales_count = models.PositiveIntegerField(default=0,editable=False)
+
 
     def __str__(self):
         return self.name

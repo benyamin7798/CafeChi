@@ -156,6 +156,8 @@ def order_summary(request):
 # def order_success(request):
 #     return render(request, 'homepage.html')
 
+
+
 @login_required
 def finalize_order(request):
     if request.method == 'POST':
@@ -166,11 +168,13 @@ def finalize_order(request):
 
             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
             for item in order.items.all():
+                total_price = item.quantity * item.price
+                
                 PurchaseHistory.objects.create(
                     user=request.user,
                     product=item.product,
                     quantity=item.quantity,
-                    total_price=item.quantity * item.price
+                    total_price=total_price
                 )
 
                 # به‌روزرسانی تعداد فروش محصول
@@ -180,3 +184,34 @@ def finalize_order(request):
 
             return redirect('order_success')
     return redirect('product_list')
+
+@login_required
+def order_success(request):
+    return render(request, 'homepage.html')
+
+
+##################################################################################################
+# @login_required
+# def finalize_order(request):
+#     if request.method == 'POST':
+#         order = Order.objects.filter(user=request.user, completed=False).first()
+#         if order:
+#             order.completed = True
+#             order.save()
+
+#             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
+#             for item in order.items.all():
+#                 PurchaseHistory.objects.create(
+#                     user=request.user,
+#                     product=item.product,
+#                     quantity=item.quantity,
+#                     total_price=item.quantity * item.price
+#                 )
+
+#                 # به‌روزرسانی تعداد فروش محصول
+#                 product = item.product
+#                 product.sales_count += item.quantity
+#                 product.save()
+
+#             return redirect('order_success')
+#     return redirect('product_list')
