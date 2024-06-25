@@ -3,6 +3,10 @@
 {% block content %}
 <h2>Products</h2>
 <style>
+    @font-face {
+        font-family: Nastaligh;
+        src: url(../static/Fonts/IranNastaliq.ttf);
+    }
     body {
         margin: 0;
         padding: 0;
@@ -45,6 +49,7 @@
     .product p {
         font-size: 1rem;
         color: #555;
+        font-family: Nastaligh;
     }
 
     /* Button styling */
@@ -88,17 +93,16 @@
 </style>
 
 <!-- Product listing -->
-<div id="products">
-    {% for product in products %}
-    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
-        <h3>{{ product.name }}</h3>
-        <p>Price: ${{ product.price }}</p>
-        <button class="add">Add to Cart</button>
-        <span class="quantity" id="quantity-{{ product.id }}">0</span>
-        <button class="remove">Remove</button>
-    </div>
-    {% endfor %}
+{% for product in products %}
+<div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
+    <h3>{{ product.name }}</h3>
+    <p> {{ product.price }} : قیمت</p>
+    <button class="add">افزودن</button>
+    <span class="quantity" id="quantity-{{ product.id }}">0</span>
+    <button class="remove">حذف</button>
 </div>
+{% endfor %}
 
 <!-- Checkout form -->
 <form id="checkout-form" action="{% url 'checkout' %}" method="POST">
