@@ -1,50 +1,32 @@
+
+{% load custom_filters %}
+
 {% block content %}
 <h1>Purchase History for {{ user.username }}</h1>
-
-{% if grouped_purchases %}
-    {% for date, purchases in grouped_purchases.items %}
-        <div class="purchase-group">
-            <h2>Purchase Date: {{ date }}</h2>
-            <table class="purchase-table">
-                <thead>
+{% for order in orders %}
+    <div class="purchase-group" style="margin-bottom: 20px;">
+        <h2>Order Date: {{ order.created_at }}</h2>
+        <table class="purchase-table" border="1">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
                     <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.quantity|multiply:item.product.price }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for purchase in purchases %}
-                        <tr>
-                            <td>{{ purchase.product.name }}</td>
-                            <td>{{ purchase.quantity }}</td>
-                            <td>{{ purchase.product.price }}</td>
-                            <td>{{ purchase.total_price }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
-{% else %}
-    <p>No purchase history available.</p>
-{% endif %}
-
-<style>
-    .purchase-group {
-        margin-bottom: 20px;
-    }
-    .purchase-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .purchase-table th, .purchase-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-    .purchase-table th {
-        background-color: #f2f2f2;
-    }
-</style>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: {{ order.items.all|total_price }}</p>
+    </div>
+{% endfor %}
 {% endblock %}
