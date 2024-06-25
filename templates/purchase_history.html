@@ -1,33 +1,32 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchase History</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <h1>Purchase History</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th>Purchase Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for purchase in purchases %}
+
+{% load custom_filters %}
+
+{% block content %}
+<h1>Purchase History for {{ user.username }}</h1>
+{% for order in orders %}
+    <div class="purchase-group" style="margin-bottom: 20px;">
+        <h2>Order Date: {{ order.created_at }}</h2>
+        <table class="purchase-table" border="1">
+            <thead>
                 <tr>
-                    <td>{{ purchase.product.name }}</td>
-                    <td>{{ purchase.quantity }}</td>
-                    <td>{{ purchase.total_price }}</td>
-                    <td>{{ purchase.purchase_date }}</td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.quantity|multiply:item.product.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: {{ order.items.all|total_price }}</p>
+    </div>
+{% endfor %}
+{% endblock %}

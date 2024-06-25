@@ -68,6 +68,8 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Product, Order, OrderItem,PurchaseHistory
 
+
+
 @login_required
 def product_list(request):
     products = Product.objects.all()
@@ -168,13 +170,13 @@ def finalize_order(request):
 
             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
             for item in order.items.all():
-                total_price = item.quantity * item.price
+                t#otal_price = item.quantity * item.product.price
                 
                 PurchaseHistory.objects.create(
                     user=request.user,
                     product=item.product,
                     quantity=item.quantity,
-                    total_price=total_price
+                    total_price=item.quantity * item.product.price
                 )
 
                 # به‌روزرسانی تعداد فروش محصول
