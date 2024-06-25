@@ -1,31 +1,79 @@
-
 {% load multiply %}
 
-{% block content %}
-<h2>Order Summary</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in order_items %}
-        <tr>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.product.price }}</td>
-            <td>{{ item.product.price|multiply:item.quantity }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<p>Total Price: {{ total_price }}</p>
-<form method="post" action="{% url 'finalize_order' %}">
-    {% csrf_token %}
-    <button type="submit">Finalize Order</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .order-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .order-summary-table th, .order-summary-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .order-summary-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #f2f2f2;
+            color: black;
+        }
+
+        .order-summary-table td {
+            text-align: center;
+        }
+
+        .order-summary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .order-summary-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .order-summary-table p {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Order Summary</h2>
+    <table class="order-summary-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.product.price|multiply:item.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total Price: {{ total_price }}</p>
+    <form method="post" action="{% url 'finalize_order' %}">
+        {% csrf_token %}
+        <button type="submit">Finalize Order</button>
+    </form>
+</body>
+</html>
