@@ -10,5 +10,6 @@ urlpatterns = [
     path('summary/', views.order_summary, name='order_summary'),
     path('finalize/', views.finalize_order, name='finalize_order'),
     path('success/', views.order_success, name='order_success'),
+    path('checkout/', views.checkout, name='checkout'),
 
 ]

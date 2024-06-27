@@ -170,7 +170,7 @@ def finalize_order(request):
 
             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
             for item in order.items.all():
-                t#otal_price = item.quantity * item.product.price
+                #total_price = item.quantity * item.product.price
                 
                 PurchaseHistory.objects.create(
                     user=request.user,

@@ -99,3 +99,8 @@ def purchase_history(request):
     orders = Order.objects.filter(user=user, completed=True).order_by('-created_at')
 
     return render(request, 'purchase_history.html', {'orders': orders, 'user': user})
+
+def product_list(request):
+    products = Product.objects.all()  # fetch all products from the database
+    return render(request, 'product_list.html', {'products': products})
+
