@@ -4,7 +4,8 @@ from .views import (dashbord,
                     product_list,
                     edit_product,
                     delete_product,
-                    edit_warehouse)
+                    edit_warehouse,)
+                    
 
 
 urlpatterns = [

@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect , get_object_or_404
 from .forms import ProductForm,WarehouseForm
 from main.models import Product,Warehouse
+from shopping_cart.models import PurchaseHistory
 from django.contrib import messages
+from django.http import JsonResponse
+from django.db.models import Sum
+import json
+from django.contrib.auth.decorators import login_required
+from datetime import datetime,timedelta
+from django.db.models import Sum
+
 
 def dashbord(request):
     return render(request,'dashbord.html')
@@ -62,3 +70,6 @@ def edit_warehouse(request):
     else:
         form = WarehouseForm(instance=warehouse)
     return render(request, 'edit_warehouse.html', {'form': form})
+
+def sales_data(request):
+    pass
