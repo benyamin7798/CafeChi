@@ -9,6 +9,14 @@ from django.contrib.auth.decorators import login_required
 from shopping_cart.models import Product ,PurchaseHistory
 from collections import defaultdict
 from datetime import datetime
+from django.db.models import Sum
+from django.utils import timezone
+from datetime import timedelta
+from django.contrib.admin.views.decorators import staff_member_required
+#import matplotlib.pyplot as plt
+import io
+import urllib, base64
+from django.http import HttpResponse
 
 
 class HomePageView(TemplateView):
@@ -37,11 +45,6 @@ def product_list_view(request, vertical):
 def alaki(request):
     return render(request,'alaki.html')
 
-def management(request):
-    return render(request,'management.html')
-
-
-
 # def purchase_history(request):
 #     user = request.user
 #     purchases = PurchaseHistory.objects.filter(user=user).order_by('-purchase_date')
@@ -58,7 +61,7 @@ def purchase_history(request):
 
     return render(request, 'purchase_history.html', {'orders': orders, 'user': user})
 
-def product_list(request):
-    products = Product.objects.all()  # fetch all products from the database
-    return render(request, 'product_list.html', {'products': products})
+# def product_list(request):
+#     products = Product.objects.all()  # fetch all products from the database
+#     return render(request, 'product_list.html', {'products': products})
 

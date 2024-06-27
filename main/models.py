@@ -9,10 +9,10 @@ def max_integer_validator(amount):
 
 class Product(models.Model):
 
-    HOT_DRINK = 'HD'
-    COLD_DRINK = 'CD'
+    HOT_DRINK = 'HOT DRINK'
+    COLD_DRINK = 'COLD DRINK'
     CAKE = 'CAKE'
-    ICE_CREAM = 'IC'
+    ICE_CREAM = 'ICE CREAM'
 
     PRODUCT_CHOICES = [
         (HOT_DRINK, 'Hot Drink'),
