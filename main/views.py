@@ -61,7 +61,7 @@ def purchase_history(request):
 
     return render(request, 'purchase_history.html', {'orders': orders, 'user': user})
 
-def product_list(request):
-    products = Product.objects.all()  # fetch all products from the database
-    return render(request, 'product_list.html', {'products': products})
+# def product_list(request):
+#     products = Product.objects.all()  # fetch all products from the database
+#     return render(request, 'product_list.html', {'products': products})
 

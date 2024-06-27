@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Edit Warehouse</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
         }
         form {
             max-width: 500px;
-            margin: 0 auto;
+            margin: auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -20,9 +20,8 @@
         label {
             display: block;
             margin-bottom: 10px;
-            font-weight: bold;
         }
-        input[type="text"], textarea {
+        input[type="text"], input[type="number"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -32,25 +31,13 @@
         button {
             padding: 10px 20px;
             background-color: #28a745;
+            color: white;
             border: none;
-            color: #fff;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
             background-color: #218838;
-        }
-        .btn-secondary {
-            background-color: #007bff;
-        }
-        .btn-secondary:hover {
-            background-color: #0056b3;
-        }
-        .btn-link {
-            background-color: #6c757d;
-        }
-        .btn-link:hover {
-            background-color: #5a6268;
         }
         .alert {
             padding: 15px;
@@ -62,18 +49,18 @@
     </style>
 </head>
 <body>
-    <h1>Add Product</h1>
-    {% if message %}
-    <div class="alert">
-        {{ message }}
+    <h1>Edit Warehouse</h1>
+    {% if messages %}
+    <div class="alerts">
+        {% for message in messages %}
+        <div class="alert">{{ message }}</div>
+        {% endfor %}
     </div>
     {% endif %}
-    <form method="POST" enctype="multipart/form-data">
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="add_and_continue">Add Product & Continue</button>
-        <button type="submit" name="add_and_view">Add Product</button>
-        <a href="{% url 'product_list' %}" class="btn-link">View Products</a>
+        <button type="submit">Edit Warehouse</button>
     </form>
 </body>
 </html>
