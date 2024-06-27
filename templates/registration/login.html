@@ -1,9 +1,106 @@
-
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
+{% load static %}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100vh;
+    }
+    
+    .waves {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        bottom: 0;
+        left: 0;
+        background: url("{% static 'Photos/image.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        animation: animateWaves 15s linear infinite;
+    }
+    @keyframes animateWaves {
+        0%, 100% {
+            background-position-x: 0;
+        }
+        100% {
+            background-position-x: 1600px; /* Adjust this value based on the width of your image */
+        }
+    }
+    .login-form {
+        position: relative;
+        z-index: 10;
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        margin: auto;
+        transform: translateY(-50%);
+        top: 50%;
+    }
+    
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+    }
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .error {
+        color: #d9534f;
+        margin-top: 10px;
+    }
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #5cb85c;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    button[type="submit"]:hover {
+        background-color: #4cae4c;
+    }
+</style>
+
+<div class="login-form">
+    <h2>Log In</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <button type="submit">Log In</button>
+    </form>
+</div>
+<div class="waves"></div>
+
 {% endblock %}
