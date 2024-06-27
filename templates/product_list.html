@@ -1,4 +1,5 @@
 
+{% load custom_filters %}
 
 {% block content %}
 <h2>Products</h2>
@@ -99,7 +100,9 @@
     <h3>{{ product.name }}</h3>
     <p> {{ product.price }} : قیمت</p>
     <button class="add">افزودن</button>
-    <span class="quantity" id="quantity-{{ product.id }}">0</span>
+    <span class="quantity" id="quantity-{{ product.id }}">
+        {{ product_quantities|get_item:product.id|default:0 }}
+    </span>
     <button class="remove">حذف</button>
 </div>
 {% endfor %}

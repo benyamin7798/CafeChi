@@ -71,9 +71,17 @@ from .models import Product, Order, OrderItem,PurchaseHistory
 
 
 @login_required
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
+def product_list_view(request, vertical):
+    products = Product.objects.filter(vertical=vertical)
+    order = Order.objects.filter(user=request.user, completed=False).first()
+    order_items = OrderItem.objects.filter(order=order) if order else []
+    product_quantities = {item.product.id: item.quantity for item in order_items}
+
+    return render(request, 'product_list.html', {
+        'products': products,
+        'vertical': vertical,
+        'product_quantities': product_quantities
+    })
 
 @login_required
 def checkout(request):
@@ -184,12 +192,13 @@ def finalize_order(request):
                 product.sales_count += item.quantity
                 product.save()
 
-            return redirect('order_success')
+            return redirect('homepage')
     return redirect('product_list')
 
-@login_required
-def order_success(request):
-    return render(request, 'homepage.html')
+# @login_required
+# def order_success(request):
+#     top_products = Product.objects.order_by('-sales_count')[:6]
+#     return render(request, 'homepage.html', {'top_products': top_products})
 
 
 ##################################################################################################
