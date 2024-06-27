@@ -1,32 +1,123 @@
 
-{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase History</title>
+    
+    <style>
+        :root {
+            --primary-color: #8576f4;
+            --secondary-color: #fdf791;
+            --accent-color: #63e0c7;
+            --hover-color: #b9b9b9;
+            --font-color: #2d3436;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fbb6ff 0%, #3d42bd 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 50px;
+            color: var(--font-color);
+        }
+        h1 {
+            font-weight: 700;
+            color: #1b1e84;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        .purchase-group {
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            width: calc(50% - 40px); /* Adjust width for 2 tables per row */
+            max-width: 600px; /* Maximum width of each table */
+        }
+        .purchase-group:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        .purchase-table-wrapper {
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
+        .purchase-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            position: relative;
+            min-width: 600px; /* Minimum width of the table */
+        }
+        .purchase-table th, .purchase-table td {
+            padding: 0.5rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid #eaeaea;
+        }
+        .purchase-table th {
+            background-color: var(--primary-color);
+            color: black;
+            font-weight: 500;
+        }
+        .purchase-table tr:nth-child(even) {
+            background-color: var(--secondary-color);
+            color: black;
+        }
+        .purchase-table tr:nth-child(odd) {
+            background-color: var(--accent-color);
+            color: black;
+        }
+        .purchase-table tr:hover {
+            background-color: var(--hover-color);
+            color: var(--font-color);
+        }
+        p {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 1rem;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    {% load custom_filters %}
 
-{% block content %}
-<h1>Purchase History for {{ user.username }}</h1>
-{% for order in orders %}
-    <div class="purchase-group" style="margin-bottom: 20px;">
-        <h2>Order Date: {{ order.created_at }}</h2>
-        <table class="purchase-table" border="1">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in order.items.all %}
+    <h1>Purchase History for {{ user.username }}</h1>
+    {% for order in orders %}
+        <div class="purchase-group">
+            <h2>Order Date: {{ order.created_at }}</h2>
+            <table class="purchase-table" border="1">
+                <thead>
                     <tr>
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price }}</td>
-                        <td>{{ item.quantity|multiply:item.product.price }}</td>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p>Total Price: {{ order.items.all|total_price }}</p>
-    </div>
-{% endfor %}
-{% endblock %}
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.price }}</td>
+                            <td>{{ item.quantity|multiply:item.product.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p>Total Price: {{ order.items.all|total_price }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>
