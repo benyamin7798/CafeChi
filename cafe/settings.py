@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cafe_management',
-    'shopping_cart.templatetags.custom_filters',
     'main',
     'shopping_cart',
     'user_account',
