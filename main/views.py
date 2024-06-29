@@ -21,9 +21,6 @@ from django.http import HttpResponse
 
 # class HomePageView(TemplateView):
 #     template_name = 'homepage.html'
-#     def top_selling_products(request):
-#         top_products = Product.objects.order_by('-sales_count')[:6]
-#         return render(request, 'top_selling_products.html', {'top_products': top_products})
 
 def home(request):
     top_products = Product.objects.order_by('-sales_count')[:6]
@@ -43,13 +40,17 @@ def home(request):
 #         context['vertical'] = self.kwargs.get('vertical')
 #         return context
 
-# views.py
+
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     order = Order.objects.filter(user=request.user, completed=False).first()
     order_items = OrderItem.objects.filter(order=order) if order else []
     product_quantities = {item.product.id: item.quantity for item in order_items}
+
+
+    
+
 
     return render(request, 'product_list.html', {
         'products': products,

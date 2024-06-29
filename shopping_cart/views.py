@@ -75,7 +75,7 @@ def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     order = Order.objects.filter(user=request.user, completed=False).first()
     order_items = OrderItem.objects.filter(order=order) if order else []
-    product_quantities = {item.product.id: item.quantity for item in order_items}
+    product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
 
     return render(request, 'product_list.html', {
         'products': products,
@@ -96,10 +96,10 @@ def checkout(request):
             return JsonResponse({'success': False, 'error': 'Empty cart'})
 
         order, created = Order.objects.get_or_create(user=request.user, completed=False)
-        for product_id, details in cart.items():
+        for product_id, detail in cart.items():
             product = Product.objects.get(id=product_id)
             order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            order_item.quantity = details['quantity']
+            order_item.quantity = detail['quantity']
             order_item.save()
 
         order.save()
