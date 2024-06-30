@@ -125,7 +125,7 @@ def order_summary(request):
         order_items = order.items.all()
         total_price = sum(item.product.price * item.quantity for item in order_items)
     else:
-        order_items = []
+        order_items = None
         total_price = 0
 
     context = {
@@ -193,7 +193,7 @@ def finalize_order(request):
                 product.save()
 
             return redirect('homepage')
-    return redirect('product_list')
+    return redirect('homepage')
 
 # @login_required
 # def order_success(request):
