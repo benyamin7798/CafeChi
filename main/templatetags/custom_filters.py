@@ -14,3 +14,9 @@ def multiply(value, arg):
 def total_price(order_items):
     total = sum(item.quantity * item.product.price for item in order_items)
     return total
+
+@register.filter
+def get_item(dictionary,key):
+    return dictionary.get(key)
+
+

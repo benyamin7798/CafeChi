@@ -2,7 +2,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import ListView,TemplateView
 from .models import Product
-from shopping_cart.models import Order
+from shopping_cart.models import Order,OrderItem
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -19,8 +19,12 @@ import urllib, base64
 from django.http import HttpResponse
 
 
-class HomePageView(TemplateView):
-    template_name = 'homepage.html'
+# class HomePageView(TemplateView):
+#     template_name = 'homepage.html'
+
+def home(request):
+    top_products = Product.objects.order_by('-sales_count')[:6]
+    return render(request, 'homepage.html', {'top_products': top_products})
 
 # class ProductListView(ListView):
 #     model = Product
@@ -36,12 +40,23 @@ class HomePageView(TemplateView):
 #         context['vertical'] = self.kwargs.get('vertical')
 #         return context
 
-# views.py
+
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
-    return render(request, 'product_list.html', {'products': products, 'vertical': vertical})
+    order = Order.objects.filter(user=request.user, completed=False).first()
+    order_items = OrderItem.objects.filter(order=order) if order else []
+    product_quantities = {item.product.id: item.quantity for item in order_items}
 
+
+    
+
+
+    return render(request, 'product_list.html', {
+        'products': products,
+        'vertical': vertical,
+        'product_quantities': product_quantities
+    })
 def alaki(request):
     return render(request,'alaki.html')
 

@@ -93,6 +93,7 @@
 </style>
 
 <!-- Product listing -->
+{% load custom_filters %}
 {% for product in products %}
 <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
     <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
@@ -111,7 +112,27 @@
 </form>
 
 <script>
-    const cart = {};
+    
+    const cart = {}
+    var a = {{ product_quantities|safe }}
+    console.log(a)
+    
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var productQuantities = {{ product_quantities|safe }};
+        
+        // دریافت تمامی تگ‌های span با کلاس quantity
+        var spans = document.querySelectorAll('span.quantity');
+
+        // حلقه برای تغییر مقادیر span‌ها
+        spans.forEach(function(span) {
+            var productId = span.id.replace('quantity-', '');
+            if (productQuantities[productId] !== undefined) {
+                span.textContent = productQuantities[productId];
+            }
+        });
+    });
+
 
     document.querySelectorAll('.add').forEach(button => {
         button.addEventListener('click', function() {
@@ -126,7 +147,9 @@
 
             document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
         });
-    });
+    }); 
+
+    
 
     document.querySelectorAll('.remove').forEach(button => {
         button.addEventListener('click', function() {
@@ -160,9 +183,15 @@
             if (data.success) {
                 window.location.href = "{% url 'order_summary' %}";
             } else {
-                alert('Something went wrong!');
+                alert('چیزی به سبد خرید اضافه نشده است');
             }
         });
     });
+
+    
 </script>
+
+
+
+
 {% endblock %}

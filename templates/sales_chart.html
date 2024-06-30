@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales Chart</h1>
+    <form method="get" action="">
+        <label for="product">Select Product:</label>
+        <select name="product" id="product">
+            <option value="">Select a product</option>
+            {% for product in products %}
+                <option value="{{ product.id }}" {% if product.id|stringformat:"s" == selected_product %}selected{% endif %}>{{ product.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date_filter">Select Date Range:</label>
+        <select name="date_filter" id="date_filter">
+            <option value="weekly" {% if date_filter == 'weekly' %}selected{% endif %}>Weekly</option>
+            <option value="monthly" {% if date_filter == 'monthly' %}selected{% endif %}>Monthly</option>
+        </select>
+        
+        <button type="submit">Filter</button>
+    </form>
+
+    {% if product_name %}
+        <h2>Sales for {{ product_name }}</h2>
+        <div class="chart-container">
+            <canvas id="salesChart" width="400" height="200"></canvas>
+        </div>
+    {% else %}
+        <p>Please select a product to view its sales chart.</p>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var dates = {{ dates|safe }};
+            var sales = {{ sales|safe }};
+            
+            if (dates.length > 0 && sales.length > 0) {
+                var ctx = document.getElementById('salesChart').getContext('2d');
+                var salesChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Sales',
+                            data: sales,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,12 +4,25 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm,CustomAuthenticationForm
+from django.contrib.auth.models import User
 
 def custom_login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        identifier = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+
+        # First try to authenticate with username
+        user = authenticate(request, username=identifier, password=password)
+        
+        if user is None:
+            # If authentication with username failed, try email
+            try:
+                user = User.objects.get(email=identifier)
+                username = user.username
+                user = authenticate(request, username=username, password=password)
+            except User.DoesNotExist:
+                pass
+
         if user is not None:
             login(request, user)
             return redirect('homepage')
@@ -17,7 +30,9 @@ def custom_login_view(request):
             # Handle the error case
             context = {'error': 'Invalid credentials'}
             return render(request, 'registration/login.html', context)
+
     return render(request, 'registration/login.html')
+
 
 def sign_up_view(request):
     if request.method == 'POST':

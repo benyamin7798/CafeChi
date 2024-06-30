@@ -71,9 +71,17 @@ from .models import Product, Order, OrderItem,PurchaseHistory
 
 
 @login_required
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
+def product_list_view(request, vertical):
+    products = Product.objects.filter(vertical=vertical)
+    order = Order.objects.filter(user=request.user, completed=False).first()
+    order_items = OrderItem.objects.filter(order=order) if order else []
+    product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
+
+    return render(request, 'product_list.html', {
+        'products': products,
+        'vertical': vertical,
+        'product_quantities': product_quantities
+    })
 
 @login_required
 def checkout(request):
@@ -88,10 +96,10 @@ def checkout(request):
             return JsonResponse({'success': False, 'error': 'Empty cart'})
 
         order, created = Order.objects.get_or_create(user=request.user, completed=False)
-        for product_id, details in cart.items():
+        for product_id, detail in cart.items():
             product = Product.objects.get(id=product_id)
             order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            order_item.quantity = details['quantity']
+            order_item.quantity = detail['quantity']
             order_item.save()
 
         order.save()
@@ -117,7 +125,7 @@ def order_summary(request):
         order_items = order.items.all()
         total_price = sum(item.product.price * item.quantity for item in order_items)
     else:
-        order_items = []
+        order_items = None
         total_price = 0
 
     context = {
@@ -184,12 +192,13 @@ def finalize_order(request):
                 product.sales_count += item.quantity
                 product.save()
 
-            return redirect('order_success')
-    return redirect('product_list')
+            return redirect('homepage')
+    return redirect('homepage')
 
-@login_required
-def order_success(request):
-    return render(request, 'homepage.html')
+# @login_required
+# def order_success(request):
+#     top_products = Product.objects.order_by('-sales_count')[:6]
+#     return render(request, 'homepage.html', {'top_products': top_products})
 
 
 ##################################################################################################
