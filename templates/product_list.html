@@ -1,12 +1,32 @@
-
-
-{% block content %}
-<h2>Products</h2>
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    {% include "includes/base.html" %}
+    <h2>Products</h2>
+ 
+    <style>
+    
+    @font-face {
+        font-family: Vazir;
+        src: url(/static/Fonts/Vazir-Bold.woff2);
+      }
     @font-face {
         font-family: Nastaligh;
-        src: url(../static/Fonts/IranNastaliq.ttf);
+        src: url(/static/Fonts/IranNastaliq.ttf);
+      }
+    
+    .nav {
+        position:fixed;
+        top: 0;
+        right: 0;
+        z-index: 3;
+        width: 1400px;
+        text-align: right;
     }
+
     body {
         margin: 0;
         padding: 0;
@@ -14,6 +34,7 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
         text-align: center;
+        margin-top: 6rem;
     }
 
     h2 {
@@ -22,6 +43,8 @@
         margin-bottom: 2rem;
         text-transform: uppercase;
         letter-spacing: 0.1rem;
+        justify-content: center;
+
     }
 
     /* Card styling for each product */
@@ -42,14 +65,18 @@
     }
 
     .product h3 {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
+        font-weight: 700;
         margin-bottom: 1rem;
+        font-family: Nastaligh;
+        margin: auto;
     }
 
     .product p {
-        font-size: 1rem;
+        font-size: 2rem;
         color: #555;
         font-family: Nastaligh;
+        margin: auto;
     }
 
     /* Button styling */
@@ -90,108 +117,110 @@
     #checkout-form button:hover {
         background-color: #45a049;
     }
-</style>
+    </style>
+</head>
+<body>
+    <!-- Product listing -->
+    {% load custom_filters %}
+    {% for product in products %}
+    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
+        <h3>{{ product.name }}</h3>
+        <p> {{ product.price }} : قیمت</p>
+        <button class="add">افزودن</button>
+        <span class="quantity" id="quantity-{{ product.id }}">0</span>
+        <button class="remove">حذف</button>
+    </div>
+    {% endfor %}
 
-<!-- Product listing -->
-{% load custom_filters %}
-{% for product in products %}
-<div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
-    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
-    <h3>{{ product.name }}</h3>
-    <p> {{ product.price }} : قیمت</p>
-    <button class="add">افزودن</button>
-    <span class="quantity" id="quantity-{{ product.id }}">0</span>
-    <button class="remove">حذف</button>
-</div>
-{% endfor %}
+    <!-- Checkout form -->
+    <form id="checkout-form" action="{% url 'checkout' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Proceed to Checkout</button>
+    </form>
 
-<!-- Checkout form -->
-<form id="checkout-form" action="{% url 'checkout' %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Proceed to Checkout</button>
-</form>
-
-<script>
-    
-    const cart = {}
-    var a = {{ product_quantities|safe }}
-    console.log(a)
-    
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var productQuantities = {{ product_quantities|safe }};
+    <script>
         
-        // دریافت تمامی تگ‌های span با کلاس quantity
-        var spans = document.querySelectorAll('span.quantity');
+        const cart = {}
+        var a = {{ product_quantities|safe }}
+        console.log(a)
+        
 
-        // حلقه برای تغییر مقادیر span‌ها
-        spans.forEach(function(span) {
-            var productId = span.id.replace('quantity-', '');
-            if (productQuantities[productId] !== undefined) {
-                span.textContent = productQuantities[productId];
-            }
-        });
-    });
+        document.addEventListener("DOMContentLoaded", function() {
+            var productQuantities = {{ product_quantities|safe }};
+            
+            // دریافت تمامی تگ‌های span با کلاس quantity
+            var spans = document.querySelectorAll('span.quantity');
 
-
-    document.querySelectorAll('.add').forEach(button => {
-        button.addEventListener('click', function() {
-            const productDiv = this.parentElement;
-            const productId = productDiv.getAttribute('data-id');
-            const productPrice = parseFloat(productDiv.getAttribute('data-price'));
-
-            if (!cart[productId]) {
-                cart[productId] = { quantity: 0, price: productPrice };
-            }
-            cart[productId].quantity += 1;
-
-            document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
-        });
-    }); 
-
-    
-
-    document.querySelectorAll('.remove').forEach(button => {
-        button.addEventListener('click', function() {
-            const productDiv = this.parentElement;
-            const productId = productDiv.getAttribute('data-id');
-
-            if (cart[productId] && cart[productId].quantity > 0) {
-                cart[productId].quantity -= 1;
-                document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
-                if (cart[productId].quantity === 0) {
-                    delete cart[productId];
+            // حلقه برای تغییر مقادیر span‌ها
+            spans.forEach(function(span) {
+                var productId = span.id.replace('quantity-', '');
+                if (productQuantities[productId] !== undefined) {
+                    span.textContent = productQuantities[productId];
                 }
-            }
+            });
         });
-    });
 
-    document.getElementById('checkout-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('cart', JSON.stringify(cart));
+
+        document.querySelectorAll('.add').forEach(button => {
+            button.addEventListener('click', function() {
+                const productDiv = this.parentElement;
+                const productId = productDiv.getAttribute('data-id');
+                const productPrice = parseFloat(productDiv.getAttribute('data-price'));
+
+                if (!cart[productId]) {
+                    cart[productId] = { quantity: 0, price: productPrice };
+                }
+                cart[productId].quantity += 1;
+
+                document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+            });
+        }); 
+
         
-        console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
 
-        fetch("{% url 'checkout' %}", {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: formData
-        }).then(response => response.json()).then(data => {
-            if (data.success) {
-                window.location.href = "{% url 'order_summary' %}";
-            } else {
-                alert('چیزی به سبد خرید اضافه نشده است');
-            }
+        document.querySelectorAll('.remove').forEach(button => {
+            button.addEventListener('click', function() {
+                const productDiv = this.parentElement;
+                const productId = productDiv.getAttribute('data-id');
+
+                if (cart[productId] && cart[productId].quantity > 0) {
+                    cart[productId].quantity -= 1;
+                    document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+                    if (cart[productId].quantity === 0) {
+                        delete cart[productId];
+                    }
+                }
+            });
         });
-    });
 
-    
-</script>
+        document.getElementById('checkout-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('cart', JSON.stringify(cart));
+            
+            console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
 
+            fetch("{% url 'checkout' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    window.location.href = "{% url 'order_summary' %}";
+                } else {
+                    alert('چیزی به سبد خرید اضافه نشده است');
+                }
+            });
+        });
 
+        
+    </script>
+    <script>
+        w3IncludeHTML();
+    </script>
 
-
-{% endblock %}
+</body>
+</html>
