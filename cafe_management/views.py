@@ -13,6 +13,7 @@ from shopping_cart.models import OrderItem
 
 
 def dashbord(request):
+    is_admin = request.user.is_authenticated and request.user.is_staff
     today = datetime.today()
     date_filter = request.GET.get('date_filter', 'weekly')
     product_id = request.GET.get('product', None)  # دریافت ID محصول
@@ -44,7 +45,8 @@ def dashbord(request):
         'products': products,
         'selected_product': product_id,
         'product_name': product_name,
-        'date_filter': date_filter
+        'date_filter': date_filter,
+        'is_admin': is_admin
     })
 
 
