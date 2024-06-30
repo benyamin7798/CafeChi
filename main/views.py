@@ -12,9 +12,6 @@ from datetime import datetime
 
 
 class HomePageView(TemplateView):
-<<<<<<< HEAD
-    template_name = 'homepage.html'
-=======
     template_name = 'homepage.html'
 
 # class ProductListView(ListView):
@@ -64,5 +61,3 @@ def purchase_history(request):
 def product_list(request):
     products = Product.objects.all()  # fetch all products from the database
     return render(request, 'product_list.html', {'products': products})
-
->>>>>>> Front
