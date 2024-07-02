@@ -19,7 +19,7 @@
     }
 
     body {
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: Vazir;
         margin: 0;
         padding: 0;
         overflow: hidden;
@@ -55,13 +55,14 @@
         width: 300px;
         margin: auto;
         transform: translateY(-50%);
-        top: 50%;
+        top: 55%;
     }
     
     h2 {
         text-align: center;
         color: #333;
         margin-bottom: 30px;
+        font-family: Vazir;
     }
     .form-group {
         margin-bottom: 20px;
@@ -70,6 +71,9 @@
         display: block;
         margin-bottom: 5px;
         color: #666;
+        text-align: right;
+        font-family: Vazir;
+
     }
     input[type="text"],
     input[type="password"] {
@@ -78,6 +82,8 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         box-sizing: border-box;
+        font-family: Vazir;
+        
     }
     .error {
         color: #d9534f;
@@ -93,30 +99,49 @@
         font-size: 16px;
         cursor: pointer;
         margin-top: 20px;
+        font-family: Vazir;
     }
     button[type="submit"]:hover {
         background-color: #4cae4c;
+    }
+    button[type="button"] {
+        border: none;
+        border-radius: 4px;
+        background-color: #00fbff;
+        color: rgb(12, 0, 183);
+        width:70px;
+        cursor: pointer;
+        height: 30px;
+        margin-top: 2%;
+        font-family: Vazir;
+        
+    }
+    button[type="button"]:hover {
+        background-color: rgb(37, 95, 255);
     }
     </style>
 
 </head>
 <body>
     <div class="login-form">
-        <h2>Log In</h2>
+        <h2>ورود</h2>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">:نام کاربری</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">:رمز</label>
                 <input type="password" id="password" name="password" required>
             </div>
             {% if error %}
                 <p class="error">{{ error }}</p>
             {% endif %}
-            <button type="submit">Log In</button>
+            <button type="submit">ورود</button>
+            <a href="{% url 'signup' %}">
+                <button type="button">ثبت نام</button>
+            </a>
         </form>
     </div>
     <div class="waves"></div>
