@@ -67,6 +67,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Product, Order, OrderItem,PurchaseHistory
+from main.models import Warehouse
 
 
 
@@ -87,8 +88,15 @@ def product_list_view(request, vertical):
 def checkout(request):
     if request.method == 'POST':
         cart_data = request.POST.get('cart', '')
+        warehouse_data = request.POST.get('warehouse', '')
+        
         try:
             cart = json.loads(cart_data)
+            warehouse = json.loads(warehouse_data)
+
+            print("Cart data received:", cart_data)
+            print("Warehouse data received:", warehouse_data)
+
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON'})
 
@@ -101,6 +109,15 @@ def checkout(request):
             order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
             order_item.quantity = detail['quantity']
             order_item.save()
+
+        # به‌روزرسانی موجودی انبار
+        warehouse_obj = Warehouse.objects.first()
+        warehouse_obj.sugar = warehouse.get('sugar', warehouse_obj.sugar)
+        warehouse_obj.coffee = warehouse.get('coffee', warehouse_obj.coffee)
+        warehouse_obj.flour = warehouse.get('flour', warehouse_obj.flour)
+        warehouse_obj.chocolate = warehouse.get('chocolate', warehouse_obj.chocolate)
+        warehouse_obj.milk = warehouse.get('milk', warehouse_obj.milk)
+        warehouse_obj.save()
 
         order.save()
         return JsonResponse({'success': True})

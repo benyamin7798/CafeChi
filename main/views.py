@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render,redirect
 from django.views.generic import ListView,TemplateView
-from .models import Product
+from .models import Product,Warehouse
 from shopping_cart.models import Order,OrderItem
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
@@ -47,6 +47,7 @@ def product_list_view(request, vertical):
     order = Order.objects.filter(user=request.user, completed=False).first()
     order_items = OrderItem.objects.filter(order=order) if order else []
     product_quantities = {item.product.id: item.quantity for item in order_items}
+    warehouse = Warehouse.objects.first()
 
 
     
@@ -55,8 +56,10 @@ def product_list_view(request, vertical):
     return render(request, 'product_list.html', {
         'products': products,
         'vertical': vertical,
-        'product_quantities': product_quantities
+        'product_quantities': product_quantities,
+        'warehouse' : warehouse
     })
+
 def alaki(request):
     return render(request,'alaki.html')
 
