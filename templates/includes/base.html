@@ -61,19 +61,23 @@
         border-bottom-right-radius: 20px;
         transition: 0.3s;
       }
+      .logout-button:hover {
+        background: #c08552;
+        transition: 0.3s;
+      }
     </style>
   </head>
   <body style="background-color: #dab49d">
     <div class="nav" style="margin-top: 0px">
       <ul class="menu" style="margin: 0%">
         <li>
-          <a  style="
-            font-family: Nastaligh;
-            font-size: 40px;
-            color: #c08552;
-            padding-left: 30px;
-          "
-          href="{% url 'homepage' %}">کافه چی</a>
+          <a style="
+          font-family: Nastaligh;
+          font-size: 40px;
+          color: #c08552;
+          padding-left: 30px;
+        "
+        href="{% url 'homepage' %}">کافه چی</a>
         </li>
         <li>
           <a class= "hov" href="">منو</a>
@@ -95,13 +99,12 @@
         <li><a class= "hov" href="{% url 'purchase_history' %}">سوابق خرید</a></li>
         <li><a class= "hov" href="{% url 'order_summary' %}">سبد خرید</a></li>
 
-        {% if user.is_authenticated %}
-  <li>
-    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
-      {% csrf_token %}
-      <button type="submit" style="background: none; border: none; color: #f3e9dc; cursor: pointer; font-family: Vazir; padding: 30px;">خروج از حساب کاربری</button>
-    </form>
-  </li>
+  {% if user.is_authenticated %}
+<li>
+  <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="logout-button" style="background: none; border: none; color: #f3e9dc; cursor: pointer; font-family: Vazir; padding: 30px;">خروج از حساب کاربری</button>  </form>
+</li>
   {% if user.is_staff %}
     <li style="float: center"><a class= "hov" href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
   {% endif %}

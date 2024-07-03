@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% include "includes/base.html" %}
     <style>
         @font-face {
             font-family: Vazir;
@@ -13,6 +14,16 @@
         @font-face {
             font-family: Nastaligh;
             src: url(/static/Fonts/IranNastaliq.ttf);
+        }
+
+        .nav {
+            position:relative;
+            top: 0;
+            right: 0;
+            z-index: 3;
+            width: 99.3%;
+            text-align: right;
+            
         }
 
         body {
@@ -36,7 +47,7 @@
             font-size: 2.5em;
             margin-bottom: 20px;
         }
-        .nav {
+        .navigate {
             display: flex;
             justify-content: space-around;
             background-color: #ff6f61;
@@ -45,7 +56,7 @@
             margin-bottom: 20px;
 
         }
-        .nav a {
+        .navigate a {
             color: white;
             text-decoration: none;
             padding: 10px 20px;
@@ -53,7 +64,7 @@
             transition: background-color 0.3s;
             font-family: Vazir;
         }
-        .nav a:hover {
+        .navigate a:hover {
             background-color: #e65c50;
         }
         .form-container {
@@ -132,7 +143,7 @@
             </div>
         {% else %}
             <h1>سیستم مدیریت</h1>
-            <div class="nav">
+            <div class="navigate">
                 <a href="/management/add_product/">اضافه کردن محصولات</a>
                 <a href="/management/products/">نمایش محصولات</a>
                 <a href="/management/edit_warehouse/">مدیریت انبار</a>
