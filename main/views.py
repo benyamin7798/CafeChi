@@ -11,8 +11,17 @@ from collections import defaultdict
 from datetime import datetime
 
 
+<<<<<<< HEAD
 class HomePageView(TemplateView):
     template_name = 'homepage.html'
+=======
+# class HomePageView(TemplateView):
+#     template_name = 'homepage.html'
+
+def home(request):
+    top_products = Product.objects.order_by('-sales_count')[:6]
+    return render(request, 'homepage.html', {'top_products': top_products})
+>>>>>>> sajad_backend
 
 # class ProductListView(ListView):
 #     model = Product
@@ -28,12 +37,24 @@ class HomePageView(TemplateView):
 #         context['vertical'] = self.kwargs.get('vertical')
 #         return context
 
-# views.py
+
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     return render(request, 'product_list.html', {'products': products, 'vertical': vertical})
 
+<<<<<<< HEAD
+=======
+
+    
+
+
+    return render(request, 'product_list.html', {
+        'products': products,
+        'vertical': vertical,
+        'product_quantities': product_quantities
+    })
+>>>>>>> sajad_backend
 def alaki(request):
     return render(request,'alaki.html')
 

@@ -6,7 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Summary</title>
+    <div w3-include-html="base.html"></div>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    {% include "includes/base.html" %}
+    
     <style>
+    .nav {
+        position:fixed;
+        top: 0;
+        right: 0;
+        z-index: 3;
+        width: 1600px;
+        text-align: right;
+
+        /* Other styling properties */
+    }
     body {
         font-family: 'Poppins', sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -134,33 +149,43 @@
     }
 
     </style>
+
 </head>
 <body>
-    <h2>Order Summary</h2>
-    <table class="order-summary-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in order_items %}
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product.price }}</td>
-                <td>{{ item.product.price|multiply:item.quantity }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <p>Total Price: {{ total_price }}</p>
-    <form method="post" action="{% url 'finalize_order' %}">
-        {% csrf_token %}
-        <button type="submit">Finalize Order</button>
-    </form>
+    {% if order_items %}
+        <h2>Order Summary</h2>
+        <table class="order-summary-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.product.price|multiply:item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: {{ total_price }}</p>
+        <form method="post" action="{% url 'finalize_order' %}">
+            {% csrf_token %}
+            <button type="submit">Finalize Order</button>
+        </form>
+    {% else %}
+        <p>سبد خرید شما خالی است</p>
+        <button  onclick="window.location.href"="{% url 'homepage' %}" >بازگشت به خانه</button>
+    {% endif %}
+    
 </body>
+<script>
+    w3IncludeHTML();
+</script>
 </html>

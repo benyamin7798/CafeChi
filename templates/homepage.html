@@ -176,7 +176,88 @@
       </button>
     </div>
     <!-- پرفروش ها -->
+<<<<<<< HEAD
     <div class="product-container">
+=======
+    <div class="top-selling-products">
+      <h2>محبوب دلها</h2>
+      <div class="product-grid">
+          {% for product in top_products %}
+              <div class="product-card">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <h3>{{ product.name }}</h3>
+                  <p>Price: ${{ product.price }}</p>
+                  <p>Sales: {{ product.sales_count }}</p>
+              </div>
+              {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                  </div><div class="product-grid">
+              {% endif %}
+          {% endfor %}
+      </div>
+    </div>
+  
+    <style>
+      h2{
+        font-family: Nastaligh;
+        font-size: 5rem;
+        font-weight: 500;
+        margin-bottom: 50px;
+      }
+      .top-selling-products {
+          text-align: center;
+          margin: 40px 0;
+          font-family: 'Arial', sans-serif;
+      }
+      .product-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          margin-bottom: 20px;
+      }
+      .product-card {
+          background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+          border-radius: 12px;
+          padding: 20px;
+          width: calc(33.33% - 20px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .product-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+      }
+      .product-card img {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+      }
+      .product-card h3 {
+          margin: 10px 0;
+          font-size: 1.4rem;
+          color: #fff;
+      }
+      .product-card p {
+          font-size: 1rem;
+          color: #fff;
+      }
+      .product-card button {
+          background-color: #ff7e5f;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background-color 0.2s ease;
+      }
+      .product-card button:hover {
+          background-color: #feb47b;
+      }
+    </style>
+  
+    <!--<div class="product-container">
+>>>>>>> sajad_backend
       <p
         style="
           font-family: Nastaligh;
@@ -217,7 +298,12 @@
         </button>
       </div>
     </div>
+    -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js
     "></script>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html> 
+>>>>>>> sajad_backend

@@ -7,12 +7,13 @@
     <style>
       @font-face {
         font-family: Vazir;
-        src: url(/cafe/tamplates/Fonts/Vazir-Bold.woff2);
+        src: url(/static/Fonts/Vazir-Bold.woff2);
       }
       @font-face {
         font-family: Nastaligh;
-        src: url(/cafe/tamplates/Fonts/IranNastaliq.ttf);
+        src: url(/static/Fonts/IranNastaliq.ttf);
       }
+      
       body,
       html {
         margin: 0;
@@ -47,6 +48,7 @@
       ul.menu li:hover ul.sub {
         display: block;
         color: #c08552;
+        transition: 0.4s;
       }
       ul.sub li {
         display: block;
@@ -78,22 +80,22 @@
           <a href="">منو</a>
 
           <ul class="sub">
-            <li><a href="">نوشیدنی سرد</a></li>
-            <li><a href="">نوشیدنی گرم</a></li>
-            <li><a href="">بستنی</a></li>
+            <li><a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a></li>
+            <li><a href="{% url 'product_list' 'HOT DRINK' %}">نوشیدنی گرم</a></li>
+            <li><a href="{% url 'product_list' 'ICE CREAM' %}">بستنی</a></li>
             <li
               style="
                 border-bottom-left-radius: 20px;
                 border-bottom-right-radius: 20px;
               "
             >
-              <a href="">کیک</a>
+              <a href="{% url 'product_list' 'CAKE' %}">کیک</a>
             </li>
           </ul>
         </li>
-        <li><a href="">سوابق خرید</a></li>
+        <li><a href="{% url 'purchase_history' %}">سوابق خرید</a></li>
         <li><a href="">سبد خرید</a></li>
-        <li><a href="">ورود به حساب</a></li>
+        <li><a href="{% url 'login'%}">ورود به حساب</a></li>
       </ul>
     </div>
   </body>
