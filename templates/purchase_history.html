@@ -124,7 +124,7 @@
     <h1>Purchase History for {{ user.username }}</h1>
     {% for order in orders %}
         <div class="purchase-group">
-            <h2>Order Date: {{ order.created_at }}</h2>
+            <h2>Order Date: {{ order.created_at_jalali }}</h2>
             <table class="purchase-table" border="1">
                 <thead>
                     <tr>

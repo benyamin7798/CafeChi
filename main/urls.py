@@ -1,7 +1,9 @@
 from django.urls import path
+
 from .views import (home,
                     product_list_view,
                     purchase_history)
+
 from shopping_cart.views import checkout
 
 
