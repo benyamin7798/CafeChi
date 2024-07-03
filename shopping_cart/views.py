@@ -67,21 +67,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Product, Order, OrderItem,PurchaseHistory
+from main.models import Warehouse
 
 
 
-@login_required
-def product_list_view(request, vertical):
-    products = Product.objects.filter(vertical=vertical)
-    order = Order.objects.filter(user=request.user, completed=False).first()
-    order_items = OrderItem.objects.filter(order=order) if order else []
-    product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
 
-    return render(request, 'product_list.html', {
-        'products': products,
-        'vertical': vertical,
-        'product_quantities': product_quantities
-    })
+
 
 @login_required
 def checkout(request):
@@ -96,10 +87,10 @@ def checkout(request):
             return JsonResponse({'success': False, 'error': 'Empty cart'})
 
         order, created = Order.objects.get_or_create(user=request.user, completed=False)
-        for product_id, detail in cart.items():
+        for product_id, details in cart.items():
             product = Product.objects.get(id=product_id)
             order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            order_item.quantity = detail['quantity']
+            order_item.quantity = details['quantity']
             order_item.save()
 
         order.save()
@@ -120,7 +111,7 @@ def order_summary(request):
         order = Order.objects.get(user=request.user, completed=False)
     except Order.DoesNotExist:
         order = None
-
+    print(f'order: {order}')
     if order:
         order_items = order.items.all()
         total_price = sum(item.product.price * item.quantity for item in order_items)

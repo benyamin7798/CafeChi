@@ -27,7 +27,6 @@
       ul.menu li {
         list-style: none;
         display: inline-block;
-        /* position: relative; */
       }
       ul.menu li a {
         display: inline-block;
@@ -36,10 +35,11 @@
         color: #f3e9dc;
         font-family: Vazir;
       }
-      ul.menu li a:hover {
+      .alaki :hover {
         background: #c08552;
         transition: 0.4s;
       }
+      
       ul.sub {
         display: none;
         position: absolute;
@@ -66,18 +66,17 @@
   <body style="background-color: #dab49d">
     <div class="nav" style="margin-top: 0px">
       <ul class="menu" style="margin: 0%">
-        <li
-          style="
+        <li>
+          <a  style="
             font-family: Nastaligh;
             font-size: 40px;
             color: #c08552;
             padding-left: 30px;
           "
-        >
-          کافه چی
+          href="{% url 'homepage' %}">کافه چی</a>
         </li>
         <li>
-          <a href="">منو</a>
+          <a class= "alaki" href="">منو</a>
 
           <ul class="sub">
             <li><a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a></li>
@@ -93,9 +92,23 @@
             </li>
           </ul>
         </li>
-        <li><a href="{% url 'purchase_history' %}">سوابق خرید</a></li>
-        <li><a href="">سبد خرید</a></li>
-        <li><a href="{% url 'login'%}">ورود به حساب</a></li>
+        <li><a class= "alaki" href="{% url 'purchase_history' %}">سوابق خرید</a></li>
+        <li><a class= "alaki" href="{% url 'order_summary' %}">سبد خرید</a></li>
+
+        {% if user.is_authenticated %}
+  <li>
+    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" style="background: none; border: none; color: #f3e9dc; cursor: pointer; font-family: Vazir; padding: 30px;">خروج از حساب کاربری</button>
+    </form>
+  </li>
+  {% if user.is_staff %}
+    <li style="float: center"><a class= "alaki" href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
+  {% endif %}
+  {% else %}
+    <li><a class= "alaki" href="{% url 'login' %}">ورود به حساب</a></li>
+  {% endif %}
+
       </ul>
     </div>
   </body>

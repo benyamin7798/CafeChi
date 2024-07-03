@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
+    <title>Product List</title>
     {% include "includes/base.html" %}
     <h2>Products</h2>
  
@@ -123,7 +123,7 @@
     <!-- Product listing -->
     {% load custom_filters %}
     {% for product in products %}
-    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}">
+    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}" data-sugar="{{product.sugar}}" data-coffee="{{product.Coffee}}" data-flour="{{product.Flour}}" data-chocolate="{{product.Chocolate}}" data-milk = "{{product.milk}}">
         <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
         <h3>{{ product.name }}</h3>
         <p> {{ product.price }} : قیمت</p>
@@ -139,51 +139,30 @@
         <button type="submit">Proceed to Checkout</button>
     </form>
 
+
     <script>
-        
-        const cart = {}
-        var a = {{ product_quantities|safe }}
-        console.log(a)
-        
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var productQuantities = {{ product_quantities|safe }};
-            
-            // دریافت تمامی تگ‌های span با کلاس quantity
-            var spans = document.querySelectorAll('span.quantity');
-
-            // حلقه برای تغییر مقادیر span‌ها
-            spans.forEach(function(span) {
-                var productId = span.id.replace('quantity-', '');
-                if (productQuantities[productId] !== undefined) {
-                    span.textContent = productQuantities[productId];
-                }
-            });
-        });
-
-
+        const cart = {};
+    
         document.querySelectorAll('.add').forEach(button => {
             button.addEventListener('click', function() {
                 const productDiv = this.parentElement;
                 const productId = productDiv.getAttribute('data-id');
                 const productPrice = parseFloat(productDiv.getAttribute('data-price'));
-
+    
                 if (!cart[productId]) {
                     cart[productId] = { quantity: 0, price: productPrice };
                 }
                 cart[productId].quantity += 1;
-
+    
                 document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
             });
-        }); 
-
-        
-
+        });
+    
         document.querySelectorAll('.remove').forEach(button => {
             button.addEventListener('click', function() {
                 const productDiv = this.parentElement;
                 const productId = productDiv.getAttribute('data-id');
-
+    
                 if (cart[productId] && cart[productId].quantity > 0) {
                     cart[productId].quantity -= 1;
                     document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
@@ -193,14 +172,14 @@
                 }
             });
         });
-
+    
         document.getElementById('checkout-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData();
             formData.append('cart', JSON.stringify(cart));
             
             console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
-
+    
             fetch("{% url 'checkout' %}", {
                 method: 'POST',
                 headers: {
@@ -211,12 +190,10 @@
                 if (data.success) {
                     window.location.href = "{% url 'order_summary' %}";
                 } else {
-                    alert('چیزی به سبد خرید اضافه نشده است');
+                    alert('سبد خرید شما خالی است');
                 }
             });
         });
-
-        
     </script>
     <script>
         w3IncludeHTML();
