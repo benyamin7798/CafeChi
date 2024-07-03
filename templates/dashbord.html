@@ -6,86 +6,204 @@
     <title>Sales Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .chart-container {
-            width: 80%;
+        @font-face {
+            font-family: Vazir;
+            src: url(/static/Fonts/Vazir-Bold.woff2);
+        }
+        @font-face {
+            font-family: Nastaligh;
+            src: url(/static/Fonts/IranNastaliq.ttf);
+        }
+
+        body {
+            font-family: Vazir;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
             margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #ff6f61;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #ff6f61;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-family: Vazir;
+        }
+        .nav a:hover {
+            background-color: #e65c50;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            font-family: Vazir;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Vazir;
+        }
+        .form-container label, .form-container select, .form-container button {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-family: Vazir;
+        }
+        .form-container select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .form-container select:hover {
+            border-color: #ff6f61;
+        }
+        .form-container option {
+            background-color: #ffecd2;
+            color: #333;
+            padding: 10px;
+            font-size: 1em;
+            font-family: Vazir;
+        }
+        .form-container button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: Vazir;
+        }
+        .form-container button:hover {
+            background-color: #e65c50;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .no-access {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .no-access h1 {
+            color: #e74c3c;
+        }
+        .no-access p {
+            color: #c0392b;
         }
     </style>
 </head>
 <body>
-    {% if not is_admin %}
-        <h1>شما دسترسی به این صفحه ندارید</h1>
-        <p>فقط مدیر سایت قابلیت دسترسی دارد</p>
-        <a href="{% url 'login' %}">ورود</a>
-    {% else %}
-        <h1>Management System</h1>
-        <a href="/management/add_product/" style="display: flex;">اضافه کردن محصولات</a>
-        <a href="/management/products/" style="display: flex;">نمایش محصولات</a>
-        <a href="/management/edit_warehouse/" style="display: flex;">مدیریت انبار</a>
-
-        <h1>Sales Chart</h1>
-        <form method="get" action="">
-            <label for="product">Select Product:</label>
-            <select name="product" id="product">
-                <option value="">Select a product</option>
-                {% for product in products %}
-                    <option value="{{ product.id }}" {% if product.id|stringformat:"s" == selected_product %}selected{% endif %}>{{ product.name }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="date_filter">Select Date Range:</label>
-            <select name="date_filter" id="date_filter">
-                <option value="weekly" {% if date_filter == 'weekly' %}selected{% endif %}>Weekly</option>
-                <option value="monthly" {% if date_filter == 'monthly' %}selected{% endif %}>Monthly</option>
-            </select>
-            
-            <button type="submit">Filter</button>
-        </form>
-
-        {% if product_name %}
-            <h2> میزان فروش {{ product_name }} </h2>
-            <div class="chart-container">
-                <canvas id="salesChart" width="400" height="200"></canvas>
+    <div class="container">
+        {% if not is_admin %}
+            <div class="no-access">
+                <h1>شما دسترسی به این صفحه ندارید</h1>
+                <p>فقط مدیر سایت قابلیت دسترسی دارد</p>
+                <a href="{% url 'login' %}" style="color: #ff6f61; text-decoration: none;">ورود</a>
             </div>
         {% else %}
-            <p>Please select a product to view its sales chart.</p>
-        {% endif %}
+            <h1>سیستم مدیریت</h1>
+            <div class="nav">
+                <a href="/management/add_product/">اضافه کردن محصولات</a>
+                <a href="/management/products/">نمایش محصولات</a>
+                <a href="/management/edit_warehouse/">مدیریت انبار</a>
+            </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var dates = {{ dates|safe }};
-                var sales = {{ sales|safe }};
-                
-                if (dates.length > 0 && sales.length > 0) {
-                    var ctx = document.getElementById('salesChart').getContext('2d');
-                    var salesChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: dates,
-                            datasets: [{
-                                label: 'Sales',
-                                data: sales,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                x: {
-                                    beginAtZero: true
-                                },
-                                y: {
-                                    beginAtZero: true
-                                }
+            <h1>جدول فروش</h1>
+            <div class="form-container">
+                <form method="get" action="">
+                    <label for="product">: انتخاب محصول</label>
+                    <select name="product" id="product">
+                        <option value="">محصول</option>
+                        {% for product in products %}
+                            <option value="{{ product.id }}" {% if product.id|stringformat:"s" == selected_product %}selected{% endif %}>{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="date_filter">: انتخاب محدوده زمان</label>
+                    <select name="date_filter" id="date_filter">
+                        <option value="weekly" {% if date_filter == 'weekly' %}selected{% endif %}>هفتگی</option>
+                        <option value="monthly" {% if date_filter == 'monthly' %}selected{% endif %}>ماهانه</option>
+                    </select>
+                    
+                    <button type="submit">فیلتر</button>
+                </form>
+            </div>
+
+            {% if product_name %}
+                <h2> میزان فروش {{ product_name }} </h2>
+                <div class="chart-container">
+                    <canvas id="salesChart" width="400" height="200"></canvas>
+                </div>
+            {% else %}
+                <p>Please select a product to view its sales chart.</p>
+            {% endif %}
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var dates = {{ dates|safe }};
+                    var sales = {{ sales|safe }};
+                    
+                    if (dates.length > 0 && sales.length > 0) {
+                        var ctx = document.getElementById('salesChart').getContext('2d');
+                        var salesChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: dates,
+                                datasets: [{
+                                    label: 'Sales',
+                                    data: sales,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }]
                             },
-                            responsive: true,
-                            maintainAspectRatio: false
-                        }
-                    });
-                }
-            });
-        </script>
-    {% endif %}
+                            options: {
+                                scales: {
+                                    x: {
+                                        beginAtZero: true
+                                    },
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                },
+                                responsive: true,
+                                maintainAspectRatio: false
+                            }
+                        });
+                    }
+                });
+            </script>
+        {% endif %}
+    </div>
 </body>
 </html>
