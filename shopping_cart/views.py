@@ -18,6 +18,7 @@ def checkout(request):
         cart_data = request.POST.get('cart', '')
         try:
             cart = json.loads(cart_data)
+            
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON'})
 
