@@ -1,21 +1,19 @@
 from django import forms
-
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import SignUpForm,CustomAuthenticationForm
 from django.contrib.auth.models import User
+from forms import SignUpForm
 
 def custom_login_view(request):
     if request.method == 'POST':
         identifier = request.POST.get('username')
         password = request.POST.get('password')
 
-        # First try to authenticate with username
+        # ابتدا تلاش میکند با یوزرنیم وارد شود
         user = authenticate(request, username=identifier, password=password)
         
         if user is None:
-            # If authentication with username failed, try email
+            # اگر یوزرنیم جواب نداد ایمیل را امتحان میکند
             try:
                 user = User.objects.get(email=identifier)
                 username = user.username
@@ -28,7 +26,7 @@ def custom_login_view(request):
             return redirect('homepage')
         else:
             # Handle the error case
-            context = {'error': 'Invalid credentials'}
+            context = {'error': 'کاربر وجود ندارد'}
             return render(request, 'registration/login.html', context)
 
     return render(request, 'registration/login.html')

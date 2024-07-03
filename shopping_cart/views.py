@@ -1,66 +1,4 @@
 
-
-# from django.shortcuts import render, redirect, get_object_or_404
-# from django.contrib.auth.decorators import login_required
-# from main.models import Product
-# from .models import Order, OrderItem
-
-# @login_required
-# def add_to_cart(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     order, created = Order.objects.get_or_create(user=request.user, completed=False)
-#     order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
-    
-#     if item_created:
-#         order_item.quantity = 1
-#     else:
-#         order_item.quantity += 1
-
-#     order_item.price = product.price * order_item.quantity
-#     order_item.save()
-
-#     order.total_price += product.price
-#     order.save()
-
-#     return redirect('cart_detail')
-
-# @login_required
-# def remove_from_cart(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     order = Order.objects.filter(user=request.user, completed=False).first()
-    
-#     if order:
-#         order_item = OrderItem.objects.filter(order=order, product=product).first()
-        
-#         if order_item:
-#             order.total_price -= product.price
-#             order_item.quantity -= 1
-            
-#             if order_item.quantity <= 0:
-#                 order_item.delete()
-#             else:
-#                 order_item.price = product.price * order_item.quantity
-#                 order_item.save()
-            
-#             order.save()
-    
-#     return redirect('cart_detail')
-
-
-# @login_required
-# def checkout(request):
-#     order = Order.objects.filter(user=request.user, completed=False).first()
-    
-#     if request.method == 'POST':
-#         if order:
-#             order.completed = True
-#             order.save()
-#             return render(request, 'homepage.html')
-#         return redirect('cart_detail')
-
-#     return render(request, 'checkout.html', {'order': order})
-
-
 # views.py
 import json
 from django.shortcuts import render, redirect
@@ -128,36 +66,6 @@ def order_summary(request):
 
 
 
-# @login_required
-# def finalize_order(request):
-#     if request.method == 'POST':
-#         order = Order.objects.filter(user=request.user, completed=False).first()
-#         if order:
-#             order.completed = True
-#             order.save()
-
-#             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
-#             for item in order.items.all():
-#                 PurchaseHistory.objects.create(
-#                     user=request.user,
-#                     product=item.product,
-#                     quantity=item.quantity,
-#                     total_price=item.quantity * item.price
-#                 )
-
-#                 # به‌روزرسانی تعداد فروش محصول
-#                 product = item.product
-#                 product.sales_count += item.quantity
-#                 product.save()
-
-#             return redirect('order_success')
-#     return redirect('product_list')
-
-# @login_required
-# def order_success(request):
-#     return render(request, 'homepage.html')
-
-
 
 @login_required
 def finalize_order(request):
@@ -185,35 +93,3 @@ def finalize_order(request):
 
             return redirect('homepage')
     return redirect('homepage')
-
-# @login_required
-# def order_success(request):
-#     top_products = Product.objects.order_by('-sales_count')[:6]
-#     return render(request, 'homepage.html', {'top_products': top_products})
-
-
-##################################################################################################
-# @login_required
-# def finalize_order(request):
-#     if request.method == 'POST':
-#         order = Order.objects.filter(user=request.user, completed=False).first()
-#         if order:
-#             order.completed = True
-#             order.save()
-
-#             # ثبت سفارشات در PurchaseHistory و به‌روزرسانی فروش محصول
-#             for item in order.items.all():
-#                 PurchaseHistory.objects.create(
-#                     user=request.user,
-#                     product=item.product,
-#                     quantity=item.quantity,
-#                     total_price=item.quantity * item.price
-#                 )
-
-#                 # به‌روزرسانی تعداد فروش محصول
-#                 product = item.product
-#                 product.sales_count += item.quantity
-#                 product.save()
-
-#             return redirect('order_success')
-#     return redirect('product_list')
