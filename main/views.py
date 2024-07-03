@@ -21,11 +21,13 @@ def product_list_view(request, vertical):
         order = Order.objects.filter(user=request.user, completed=False).first()
         order_items = OrderItem.objects.filter(order=order) if order else []
         product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
+        warehouse = Warehouse.objects.first()
 
         return render(request, 'product_list.html', {
             'products': products,
             'vertical': vertical,
-            'product_quantities': product_quantities
+            'product_quantities': product_quantities,
+            'inventory': warehouse,
     })
     else:
         return redirect('login')

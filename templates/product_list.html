@@ -225,6 +225,28 @@
     </script> {% endcomment %}
 
     <script>
+        const warehouse = {
+            sugar: {{ warehouse.sugar }},
+            coffee: {{ warehouse.coffee }},
+            flour: {{ warehouse.flour }},
+            chocolate: {{ warehouse.chocolate }},
+            milk: {{ warehouse.milk }}
+        };
+
+        const products = {};
+        {% for product in products %}
+        products[{{ product.id }}] = {
+            sugar_required: {{ product.sugar }},
+            coffee_required: {{ product.Coffee }},
+            flour_required: {{ product.Flour }},
+            chocolate_required: {{ product.Chocolate }},
+            milk_required: {{ product.milk }}
+        };
+        {% endfor %}
+    </script>
+
+
+    <script>
         const cart = {};
     
         document.querySelectorAll('.add').forEach(button => {
