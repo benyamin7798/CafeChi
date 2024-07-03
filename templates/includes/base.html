@@ -23,6 +23,7 @@
         direction: rtl;
         background-color: #5e3023;
         padding-right: 10px;
+        height: 15%;
       }
       ul.menu li {
         list-style: none;
@@ -35,7 +36,7 @@
         color: #f3e9dc;
         font-family: Vazir;
       }
-      .alaki :hover {
+      .hov :hover {
         background: #c08552;
         transition: 0.4s;
       }
@@ -76,7 +77,7 @@
           href="{% url 'homepage' %}">کافه چی</a>
         </li>
         <li>
-          <a class= "alaki" href="">منو</a>
+          <a class= "hov" href="">منو</a>
 
           <ul class="sub">
             <li><a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a></li>
@@ -92,8 +93,8 @@
             </li>
           </ul>
         </li>
-        <li><a class= "alaki" href="{% url 'purchase_history' %}">سوابق خرید</a></li>
-        <li><a class= "alaki" href="{% url 'order_summary' %}">سبد خرید</a></li>
+        <li><a class= "hov" href="{% url 'purchase_history' %}">سوابق خرید</a></li>
+        <li><a class= "hov" href="{% url 'order_summary' %}">سبد خرید</a></li>
 
         {% if user.is_authenticated %}
   <li>
@@ -103,10 +104,10 @@
     </form>
   </li>
   {% if user.is_staff %}
-    <li style="float: center"><a class= "alaki" href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
+    <li style="float: center"><a class= "hov" href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
   {% endif %}
   {% else %}
-    <li><a class= "alaki" href="{% url 'login' %}">ورود به حساب</a></li>
+    <li><a class= "hov" href="{% url 'login' %}">ورود به حساب</a></li>
   {% endif %}
 
       </ul>
