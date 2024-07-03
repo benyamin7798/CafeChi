@@ -8,21 +8,13 @@ def max_integer_validator(amount):
 
 
 class Product(models.Model):
-<<<<<<< HEAD
-
-    HOT_DRINK = 'HD'
-    COLD_DRINK = 'CD'
-    CAKE = 'CAKE'
-    ICE_CREAM = 'IC'
-
-=======
     # برای اینکه بعدها در صورت نیاز، خواستیم نام ورتیکال را عوض کنیم اینطوری مینویسیم تا نیاز نباشد در همه جا نام آن را عوض کنیم
     HOT_DRINK = 'HOT DRINK'
     COLD_DRINK = 'COLD DRINK'
     CAKE = 'CAKE'
     ICE_CREAM = 'ICE CREAM'
     # لیست درست شده برای فیلد ورتیکال
->>>>>>> sajad_backend
+
     PRODUCT_CHOICES = [
         (HOT_DRINK, 'Hot Drink'),
         (COLD_DRINK, 'Cold Drink'),
