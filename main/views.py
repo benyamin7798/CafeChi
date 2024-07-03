@@ -43,35 +43,19 @@ def home(request):
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
-<<<<<<< HEAD
-    if request.user.is_authenticated():
-        order = Order.objects.filter(user=request.user, completed=False).first()
-        order_items = OrderItem.objects.filter(order=order) if order else []
-        product_quantities = {item.product.id: item.quantity for item in order_items}
-        warehouse = Warehouse.objects.first()
-=======
     if request.user.is_authenticated:
         order = Order.objects.filter(user=request.user, completed=False).first()
         order_items = OrderItem.objects.filter(order=order) if order else []
         print(f'prder items: {order_items}')
         product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
->>>>>>> c14adb23d702a7e26eed0d3323b2ff03053a52c6
 
         return render(request, 'product_list.html', {
             'products': products,
             'vertical': vertical,
-<<<<<<< HEAD
-            'product_quantities': product_quantities,
-            'warehouse' : warehouse
-        })
-    else:
-        redirect("accounts/login")
-=======
             'product_quantities': product_quantities
     })
     else:
         return redirect('login')
->>>>>>> c14adb23d702a7e26eed0d3323b2ff03053a52c6
 
 def alaki(request):
     return render(request,'alaki.html')
