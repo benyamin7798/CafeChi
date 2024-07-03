@@ -71,11 +71,6 @@ from .models import Product, Order, OrderItem,PurchaseHistory
 
 
 @login_required
-<<<<<<< HEAD
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
-=======
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     order = Order.objects.filter(user=request.user, completed=False).first()
@@ -87,7 +82,6 @@ def product_list_view(request, vertical):
         'vertical': vertical,
         'product_quantities': product_quantities
     })
->>>>>>> sajad_backend
 
 @login_required
 def checkout(request):
@@ -198,13 +192,8 @@ def finalize_order(request):
                 product.sales_count += item.quantity
                 product.save()
 
-<<<<<<< HEAD
-            return redirect('order_success')
-    return redirect('product_list')
-=======
             return redirect('homepage')
     return redirect('homepage')
->>>>>>> sajad_backend
 
 @login_required
 def order_success(request):
