@@ -123,17 +123,6 @@
   <body>
     <h2>محصولات</h2>
     <!-- Product listing -->
-<<<<<<< HEAD
-    {% load custom_filters %}
-    {% for product in products %}
-    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}" data-sugar="{{product.sugar}}" data-coffee="{{product.Coffee}}" data-flour="{{product.Flour}}" data-chocolate="{{product.Chocolate}}" data-milk = "{{product.milk}}">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
-        <h3>{{ product.name }}</h3>
-        <p> {{ product.price }} : قیمت</p>
-        <button class="add">افزودن</button>
-        <span class="quantity" id="quantity-{{ product.id }}" quantity-id = "{{product.id}}">0</span>
-        <button class="remove">حذف</button>
-=======
     {% load custom_filters %} {% for product in products %}
     <div
       class="product"
@@ -160,7 +149,6 @@
       <button class="add">افزودن</button>
       <span class="quantity" id="quantity-{{ product.id }}">0</span>
       <button class="remove">حذف</button>
->>>>>>> copy
     </div>
     {% endfor %}
 
@@ -271,62 +259,6 @@
 
 
     <script>
-<<<<<<< HEAD
-        const cart = {
-            {% for product in product_quantities %}
-            "{{product.id}}":{quantity: {{product.quantity}}, price: {{product.price}}},
-            {% endfor %}
-        };
-        
-        
-        
-        for (var id in cart) {
-            var quantity = cart[id].quantity;
-            if (quantity === null) {
-                quantity = 0;
-            }
-            var dataText = document.getElementById('quantity-' + id).textContent;
-            dataText = quantity;
-            var textFloat = parseFloat(dataText);
-            document.getElementById('quantity-' + id).textContent = textFloat;
-        } 
-        
-    
-        document.querySelectorAll('.add').forEach(button => {
-            button.addEventListener('click', function() {
-                const productDiv = this.parentElement;
-                const productId = productDiv.getAttribute('data-id');
-                const productPrice = parseFloat(productDiv.getAttribute('data-price'));
-    
-                if (!cart[productId]) {
-                    cart[productId] = { quantity: 0, price: productPrice };
-                }
-                
-                cart[productId].quantity += 1;
-                
-                var dataText = document.getElementById('quantity-' + productId).textContent;
-                var textFloat = parseFloat(dataText);
-                textFloat+=1;
-                document.getElementById('quantity-' + productId).textContent = textFloat;
-                
-            });
-        });
-    
-        document.querySelectorAll('.remove').forEach(button => {
-            button.addEventListener('click', function() {
-                const productDiv = this.parentElement;
-                const productId = productDiv.getAttribute('data-id');
-    
-                if (cart[productId] && cart[productId].quantity > 0
-                && document.getElementById('quantity-' + productId).textContent > 0) {
-                    cart[productId].quantity -= 1;
-                    document.getElementById('quantity-' + productId).textContent -= 1;
-                    if (cart[productId].quantity === 0) {
-                        delete cart[productId];
-                    }
-                }
-            });
-=======
       const cart = {};
 
       document.querySelectorAll(".add").forEach((button) => {
@@ -360,7 +292,6 @@
               delete cart[productId];
             }
           }
->>>>>>> copy
         });
       });
 
