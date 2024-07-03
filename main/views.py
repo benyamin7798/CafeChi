@@ -40,6 +40,12 @@ def product_list_view(request, vertical):
 
 
     
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> sajad_backend
 def alaki(request):
     return render(request,'alaki.html')
 
