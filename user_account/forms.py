@@ -36,7 +36,7 @@ class CustomAuthenticationForm(forms.Form):
                     user_obj = User.objects.get(email=username_or_email)
                     user = authenticate(username=user_obj.username, password=password)
                 except User.DoesNotExist:
-                    raise forms.ValidationError("Invalid login credentials")
+                    raise forms.ValidationError("نام کاربری یا رمز عبور اشتباه است")
             
             #if not user:
                 #raise forms.ValidationError("Invalid login credentials")

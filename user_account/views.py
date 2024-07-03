@@ -2,7 +2,7 @@ from django import forms
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from forms import SignUpForm
+from .forms import SignUpForm
 
 def custom_login_view(request):
     if request.method == 'POST':
@@ -43,6 +43,6 @@ def sign_up_view(request):
     
     return render(request, 'registration/sign_up.html', {'form': form})
 
-class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+# class LoginForm(forms.Form):
+#     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
