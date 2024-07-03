@@ -18,6 +18,7 @@ def checkout(request):
         cart_data = request.POST.get('cart', '')
         try:
             cart = json.loads(cart_data)
+            
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON'})
 
@@ -49,7 +50,6 @@ def order_summary(request):
         order = Order.objects.get(user=request.user, completed=False)
     except Order.DoesNotExist:
         order = None
-    print(f'order: {order}')
     if order:
         order_items = order.items.all()
         total_price = sum(item.product.price * item.quantity for item in order_items)

@@ -128,7 +128,7 @@
         <h3>{{ product.name }}</h3>
         <p> {{ product.price }} : قیمت</p>
         <button class="add">افزودن</button>
-        <span class="quantity" id="quantity-{{ product.id }}">0</span>
+        <span class="quantity" id="quantity-{{ product.id }}" quantity-id = "{{product.id}}">0</span>
         <button class="remove">حذف</button>
     </div>
     {% endfor %}
@@ -140,8 +140,30 @@
     </form>
 
 
+    
+           
+
+
     <script>
-        const cart = {};
+        const cart = {
+            {% for product in product_quantities %}
+            "{{product.id}}":{quantity: {{product.quantity}}, price: {{product.price}}},
+            {% endfor %}
+        };
+        
+        
+        
+        for (var id in cart) {
+            var quantity = cart[id].quantity;
+            if (quantity === null) {
+                quantity = 0;
+            }
+            var dataText = document.getElementById('quantity-' + id).textContent;
+            dataText = quantity;
+            var textFloat = parseFloat(dataText);
+            document.getElementById('quantity-' + id).textContent = textFloat;
+        } 
+        
     
         document.querySelectorAll('.add').forEach(button => {
             button.addEventListener('click', function() {
@@ -152,9 +174,14 @@
                 if (!cart[productId]) {
                     cart[productId] = { quantity: 0, price: productPrice };
                 }
+                
                 cart[productId].quantity += 1;
-    
-                document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+                
+                var dataText = document.getElementById('quantity-' + productId).textContent;
+                var textFloat = parseFloat(dataText);
+                textFloat+=1;
+                document.getElementById('quantity-' + productId).textContent = textFloat;
+                
             });
         });
     
@@ -163,9 +190,10 @@
                 const productDiv = this.parentElement;
                 const productId = productDiv.getAttribute('data-id');
     
-                if (cart[productId] && cart[productId].quantity > 0) {
+                if (cart[productId] && cart[productId].quantity > 0
+                && document.getElementById('quantity-' + productId).textContent > 0) {
                     cart[productId].quantity -= 1;
-                    document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+                    document.getElementById('quantity-' + productId).textContent -= 1;
                     if (cart[productId].quantity === 0) {
                         delete cart[productId];
                     }
