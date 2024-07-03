@@ -128,7 +128,7 @@
         <h3>{{ product.name }}</h3>
         <p> {{ product.price }} : قیمت</p>
         <button class="add">افزودن</button>
-        <span class="quantity" id="quantity-{{ product.id }}">0</span>
+        <span class="quantity" id="quantity-{{ product.id }}" quantity-id = "{{product.id}}">0</span>
         <button class="remove">حذف</button>
     </div>
     {% endfor %}
@@ -229,7 +229,17 @@
 
 
     <script>
-        const cart = {};
+        const cart = {
+            {% for product in product_quantities %}
+            "{{product.id}}":{quantity: {{product.quantity}}, price: {{product.price}}},
+            {% endfor %}
+        };
+        
+        
+        for(var id in cart) {
+            document.getElementById('quantity-' + id).innerHTML = cart[id].quantity
+        }
+        
     
         document.querySelectorAll('.add').forEach(button => {
             button.addEventListener('click', function() {
