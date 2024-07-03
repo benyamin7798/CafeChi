@@ -46,8 +46,8 @@ def product_list_view(request, vertical):
     if request.user.is_authenticated:
         order = Order.objects.filter(user=request.user, completed=False).first()
         order_items = OrderItem.objects.filter(order=order) if order else []
-        print(f'prder items: {order_items}')
         product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
+        warehouse_data = Warehouse.objects.filter().first()
 
         return render(request, 'product_list.html', {
             'products': products,
