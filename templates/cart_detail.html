@@ -1,0 +1,36 @@
+
+{% block content %}
+<h2>سبد خرید</h2>
+
+{% if order %}
+    <table>
+        <thead>
+            <tr>
+                <th>محصول</th>
+                <th>تعداد</th>
+                <th>قیمت</th>
+                <th>جمع کل</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <a href="{% url 'add_to_cart' item.product.id %}">+</a>
+                        <a href="{% url 'remove_from_cart' item.product.id %}">-</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>قیمت کل: {{ order.total_price }}</h3>
+    <a href="{% url 'checkout' %}">نهایی کردن خرید</a>
+{% else %}
+    <p>سبد خرید شما خالی است.</p>
+{% endif %}
+{% endblock %}
