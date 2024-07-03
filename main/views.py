@@ -2,21 +2,13 @@
 from django.shortcuts import render,redirect
 from django.views.generic import ListView,TemplateView
 from .models import Product
-from shopping_cart.models import Order,OrderItem
+from shopping_cart.models import Order
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from shopping_cart.models import Product ,PurchaseHistory
 from collections import defaultdict
 from datetime import datetime
-from django.db.models import Sum
-from django.utils import timezone
-from datetime import timedelta
-from django.contrib.admin.views.decorators import staff_member_required
-#import matplotlib.pyplot as plt
-import io
-import urllib, base64
-from django.http import HttpResponse
 
 
 # class HomePageView(TemplateView):
@@ -44,21 +36,20 @@ def home(request):
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
-    order = Order.objects.filter(user=request.user, completed=False).first()
-    order_items = OrderItem.objects.filter(order=order) if order else []
-    product_quantities = {item.product.id: item.quantity for item in order_items}
+    return render(request, 'product_list.html', {'products': products, 'vertical': vertical})
 
 
     
 
 
-    return render(request, 'product_list.html', {
-        'products': products,
-        'vertical': vertical,
-        'product_quantities': product_quantities
-    })
+
 def alaki(request):
     return render(request,'alaki.html')
+
+def management(request):
+    return render(request,'management.html')
+
+
 
 # def purchase_history(request):
 #     user = request.user
@@ -76,7 +67,6 @@ def purchase_history(request):
 
     return render(request, 'purchase_history.html', {'orders': orders, 'user': user})
 
-# def product_list(request):
-#     products = Product.objects.all()  # fetch all products from the database
-#     return render(request, 'product_list.html', {'products': products})
-
+def product_list(request):
+    products = Product.objects.all()  # fetch all products from the database
+    return render(request, 'product_list.html', {'products': products})
