@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product List</title>
     {% include "includes/base.html" %}
-    <h2>Products</h2>
- 
+
     <style>
-    
-    @font-face {
+      @font-face {
         font-family: Vazir;
         src: url(/static/Fonts/Vazir-Bold.woff2);
       }
-    @font-face {
+      @font-face {
         font-family: Nastaligh;
         src: url(/static/Fonts/IranNastaliq.ttf);
       }
-    
-    .nav {
-        position:fixed;
+
+      .nav {
+        position: fixed;
         top: 0;
         right: 0;
         z-index: 3;
         width: 1600px;
         text-align: right;
-    }
+      }
 
-    body {
+      body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #c08552, #c08552 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
         text-align: center;
         margin-top: 6rem;
-    }
+      }
 
-    h2 {
-        font-size: 2.5rem;
-        color: #5e3023;
-        margin-bottom: 2rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1rem;
+      h2 {
+        font-size: 5rem;
+        color: #f3e9dc;
+        margin: 0rem;
         justify-content: center;
+        font-family: Nastaligh;
+        text-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      }
 
-    }
-
-    /* Card styling for each product */
-    .product {
+      /* Card styling for each product */
+      .product {
         background-color: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(10px);
         border-radius: 15px;
@@ -57,30 +54,31 @@
         margin: 1rem auto;
         max-width: 300px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+      }
 
-    .product:hover {
+      .product:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
+      }
 
-    .product h3 {
+      .product h3 {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
         font-family: Nastaligh;
         margin: auto;
-    }
+      }
 
-    .product p {
+      .product p {
         font-size: 2rem;
         color: #555;
         font-family: Nastaligh;
         margin: auto;
-    }
+      }
 
-    /* Button styling */
-    .add, .remove {
+      /* Button styling */
+      .add,
+      .remove {
         background-color: #5e3023;
         color: #fff;
         border: none;
@@ -90,20 +88,23 @@
         font-size: 1rem;
         margin: 0.5rem;
         transition: background-color 0.3s ease;
-    }
+        font-family: Vazir;
+      }
 
-    .add:hover, .remove:hover {
+      .add:hover,
+      .remove:hover,
+      .submitbutton:hover {
         background-color: #7a4434;
-    }
+      }
 
-    .quantity {
+      .quantity {
         font-size: 1rem;
         color: #5e3023;
-    }
+      }
 
-    /* Checkout button styling */
-    #checkout-form button {
-        background-color: #4CAF50;
+      /* Checkout button styling */
+      #checkout-form button {
+        background-color: #4caf50;
         color: white;
         border: none;
         border-radius: 5px;
@@ -112,92 +113,215 @@
         font-size: 1rem;
         margin-top: 2rem;
         transition: background-color 0.3s ease;
-    }
+      }
 
-    #checkout-form button:hover {
+      #checkout-form button:hover {
         background-color: #45a049;
-    }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <h2>محصولات</h2>
     <!-- Product listing -->
-    {% load custom_filters %}
-    {% for product in products %}
-    <div class="product" data-id="{{ product.id }}" data-price="{{ product.price }}" data-sugar="{{product.sugar}}" data-coffee="{{product.Coffee}}" data-flour="{{product.Flour}}" data-chocolate="{{product.Chocolate}}" data-milk = "{{product.milk}}">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; border-radius: 15px 15px 0 0; max-height: 200px; object-fit: cover;">
-        <h3>{{ product.name }}</h3>
-        <p> {{ product.price }} : قیمت</p>
-        <button class="add">افزودن</button>
-        <span class="quantity" id="quantity-{{ product.id }}">0</span>
-        <button class="remove">حذف</button>
+    {% load custom_filters %} {% for product in products %}
+    <div
+      class="product"
+      data-id="{{ product.id }}"
+      data-price="{{ product.price }}"
+      data-sugar="{{product.sugar}}"
+      data-coffee="{{product.Coffee}}"
+      data-flour="{{product.Flour}}"
+      data-chocolate="{{product.Chocolate}}"
+      data-milk="{{product.milk}}"
+    >
+      <img
+        src="{{ product.image.url }}"
+        alt="{{ product.name }}"
+        style="
+          width: 100%;
+          border-radius: 15px 15px 0 0;
+          max-height: 200px;
+          object-fit: cover;
+        "
+      />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.price }} : قیمت</p>
+      <button class="add">افزودن</button>
+      <span class="quantity" id="quantity-{{ product.id }}">0</span>
+      <button class="remove">حذف</button>
     </div>
     {% endfor %}
 
     <!-- Checkout form -->
     <form id="checkout-form" action="{% url 'checkout' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Proceed to Checkout</button>
+      {% csrf_token %}
+      <button
+        class="submitbutton"
+        type="submit"
+        style="
+          font-family: Vazir;
+          background-color: #5e3023;
+          margin-bottom: 30px;
+        "
+      >
+        نهایی کردن خرید
+      </button>
     </form>
 
+<<<<<<< HEAD
+=======
+    <!-- {% comment %}
+    <script>
+      const cart = {};
+      const warehouse = {
+          sugar: {{ warehouse.sugar }},
+          coffee: {{ warehouse.coffee }},
+          flour: {{ warehouse.flour }},
+          chocolate: {{ warehouse.chocolate }},
+          milk: {{ warehouse.milk }}
+      }
+
+      {% comment %} document.addEventListener("DOMContentLoaded", function() {
+          var productQuantities = {{ product_quantities|safe }};
+
+          // دریافت تمامی تگ‌های span با کلاس quantity
+          var spans = document.querySelectorAll('span.quantity');
+
+          // حلقه برای تغییر مقادیر span‌ها
+          spans.forEach(function(span) {
+              var productId = span.id.replace('quantity-', '');
+              if (productQuantities[productId] !== undefined) {
+                  span.textContent = productQuantities[productId];
+              }
+          });
+      });
+
+
+
+
+      <script>
+          const cart = {};
+
+          document.querySelectorAll('.add').forEach(button => {
+              button.addEventListener('click', function() {
+                  const productDiv = this.parentElement;
+                  const productId = productDiv.getAttribute('data-id');
+                  const productPrice = parseFloat(productDiv.getAttribute('data-price'));
+
+                  if (!cart[productId]) {
+                      cart[productId] = { quantity: 0, price: productPrice };
+                  }
+                  cart[productId].quantity += 1;
+
+                  document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+              });
+          });
+
+          document.querySelectorAll('.remove').forEach(button => {
+              button.addEventListener('click', function() {
+                  const productDiv = this.parentElement;
+                  const productId = productDiv.getAttribute('data-id');
+
+                  if (cart[productId] && cart[productId].quantity > 0) {
+                      cart[productId].quantity -= 1;
+                      document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
+                      if (cart[productId].quantity === 0) {
+                          delete cart[productId];
+                      }
+                  }
+              });
+          });
+
+          document.getElementById('checkout-form').addEventListener('submit', function(event) {
+              event.preventDefault();
+              const formData = new FormData();
+              formData.append('cart', JSON.stringify(cart));
+
+              console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
+
+              fetch("{% url 'checkout' %}", {
+                  method: 'POST',
+                  headers: {
+                      'X-CSRFToken': '{{ csrf_token }}'
+                  },
+                  body: formData
+              }).then(response => response.json()).then(data => {
+                  if (data.success) {
+                      window.location.href = "{% url 'order_summary' %}";
+                  } else {
+                      alert('Something went wrong!');
+                  }
+              });
+          });
+    </script>
+    {% endcomment %} -->
+>>>>>>> 1c2b250ed8f956f6f0b2927d2a3370b4b61d6a13
 
     <script>
-        const cart = {};
-    
-        document.querySelectorAll('.add').forEach(button => {
-            button.addEventListener('click', function() {
-                const productDiv = this.parentElement;
-                const productId = productDiv.getAttribute('data-id');
-                const productPrice = parseFloat(productDiv.getAttribute('data-price'));
-    
-                if (!cart[productId]) {
-                    cart[productId] = { quantity: 0, price: productPrice };
-                }
-                cart[productId].quantity += 1;
-    
-                document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
-            });
+      const cart = {};
+
+      document.querySelectorAll(".add").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productDiv = this.parentElement;
+          const productId = productDiv.getAttribute("data-id");
+          const productPrice = parseFloat(
+            productDiv.getAttribute("data-price")
+          );
+
+          if (!cart[productId]) {
+            cart[productId] = { quantity: 0, price: productPrice };
+          }
+          cart[productId].quantity += 1;
+
+          document.getElementById("quantity-" + productId).textContent =
+            cart[productId].quantity;
         });
-    
-        document.querySelectorAll('.remove').forEach(button => {
-            button.addEventListener('click', function() {
-                const productDiv = this.parentElement;
-                const productId = productDiv.getAttribute('data-id');
-    
-                if (cart[productId] && cart[productId].quantity > 0) {
-                    cart[productId].quantity -= 1;
-                    document.getElementById('quantity-' + productId).textContent = cart[productId].quantity;
-                    if (cart[productId].quantity === 0) {
-                        delete cart[productId];
-                    }
-                }
-            });
+      });
+
+      document.querySelectorAll(".remove").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productDiv = this.parentElement;
+          const productId = productDiv.getAttribute("data-id");
+
+          if (cart[productId] && cart[productId].quantity > 0) {
+            cart[productId].quantity -= 1;
+            document.getElementById("quantity-" + productId).textContent =
+              cart[productId].quantity;
+            if (cart[productId].quantity === 0) {
+              delete cart[productId];
+            }
+          }
         });
-    
-        document.getElementById('checkout-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            formData.append('cart', JSON.stringify(cart));
-            
-            console.log(JSON.stringify(cart));  // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
-    
-            fetch("{% url 'checkout' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: formData
-            }).then(response => response.json()).then(data => {
-                if (data.success) {
-                    window.location.href = "{% url 'order_summary' %}";
-                } else {
-                    alert('سبد خرید شما خالی است');
-                }
+      });
+
+      document
+        .getElementById("checkout-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const formData = new FormData();
+          formData.append("cart", JSON.stringify(cart));
+
+          console.log(JSON.stringify(cart)); // برای بررسی اینکه داده‌ها به درستی آماده شده‌اند
+
+          fetch("{% url 'checkout' %}", {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                window.location.href = "{% url 'order_summary' %}";
+              } else {
+                alert("سبد خرید شما خالی است");
+              }
             });
         });
     </script>
     <script>
-        w3IncludeHTML();
+      w3IncludeHTML();
     </script>
-
-</body>
+  </body>
 </html>
