@@ -88,15 +88,8 @@ def product_list_view(request, vertical):
 def checkout(request):
     if request.method == 'POST':
         cart_data = request.POST.get('cart', '')
-        warehouse_data = request.POST.get('warehouse', '')
-        
         try:
             cart = json.loads(cart_data)
-            warehouse = json.loads(warehouse_data)
-
-            print("Cart data received:", cart_data)
-            print("Warehouse data received:", warehouse_data)
-
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON'})
 
@@ -104,20 +97,11 @@ def checkout(request):
             return JsonResponse({'success': False, 'error': 'Empty cart'})
 
         order, created = Order.objects.get_or_create(user=request.user, completed=False)
-        for product_id, detail in cart.items():
+        for product_id, details in cart.items():
             product = Product.objects.get(id=product_id)
             order_item, item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            order_item.quantity = detail['quantity']
+            order_item.quantity = details['quantity']
             order_item.save()
-
-        # به‌روزرسانی موجودی انبار
-        warehouse_obj = Warehouse.objects.first()
-        warehouse_obj.sugar = warehouse.get('sugar', warehouse_obj.sugar)
-        warehouse_obj.coffee = warehouse.get('coffee', warehouse_obj.coffee)
-        warehouse_obj.flour = warehouse.get('flour', warehouse_obj.flour)
-        warehouse_obj.chocolate = warehouse.get('chocolate', warehouse_obj.chocolate)
-        warehouse_obj.milk = warehouse.get('milk', warehouse_obj.milk)
-        warehouse_obj.save()
 
         order.save()
         return JsonResponse({'success': True})
