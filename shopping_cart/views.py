@@ -71,18 +71,17 @@ from main.models import Warehouse
 
 
 
+<<<<<<< HEAD
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     order = Order.objects.filter(user=request.user, completed=False).first()
     order_items = OrderItem.objects.filter(order=order) if order else []
     product_quantities = {item.product.id: {'quantity': item.quantity, 'price': item.product.price} for item in order_items}
+=======
+>>>>>>> c14adb23d702a7e26eed0d3323b2ff03053a52c6
 
-    return render(request, 'product_list.html', {
-        'products': products,
-        'vertical': vertical,
-        'product_quantities': product_quantities
-    })
+
 
 @login_required
 def checkout(request):
@@ -121,7 +120,7 @@ def order_summary(request):
         order = Order.objects.get(user=request.user, completed=False)
     except Order.DoesNotExist:
         order = None
-
+    print(f'order: {order}')
     if order:
         order_items = order.items.all()
         total_price = sum(item.product.price * item.quantity for item in order_items)

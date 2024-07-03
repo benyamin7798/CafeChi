@@ -207,7 +207,7 @@
     </form>
   </li>
   {% if user.is_staff %}
-    <li style="float: left"><a href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
+    <li style="float: center"><a href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
   {% endif %}
   {% else %}
     <li><a href="{% url 'login' %}">ورود به حساب</a></li>
