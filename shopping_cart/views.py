@@ -4,8 +4,9 @@ import json
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import Product, Order, OrderItem,PurchaseHistory
+from .models import Product, Order, OrderItem,PurchaseHistory,Cart
 from main.models import Warehouse
+
 
 
 
@@ -51,7 +52,8 @@ def order_summary(request):
     except Order.DoesNotExist:
         order = None
     if order:
-        order_items = order.items.all()
+        # Exclude items with quantity 0
+        order_items = order.items.exclude(quantity=0)
         total_price = sum(item.product.price * item.quantity for item in order_items)
     else:
         order_items = None
@@ -93,3 +95,11 @@ def finalize_order(request):
 
             return redirect('homepage')
     return redirect('homepage')
+
+def cart_detail(request):
+    cart = Cart(request)
+    for item in cart:
+        if item['quantity'] == 0:
+            product = item['product']
+            cart.remove(product)
+    return render(request, 'cart_detail.html', {'cart': cart})

@@ -32,3 +32,14 @@ class PurchaseHistory(models.Model):
     quantity = models.IntegerField(default=1)
     total_price = models.IntegerField()
     purchase_date = models.DateTimeField(auto_now_add=True)
+
+
+from django.db import models
+from shopping_cart.models import Product  # Assuming your Product model is in shop app
+
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.quantity} of {self.product.name}'

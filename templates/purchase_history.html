@@ -125,32 +125,6 @@
 
     <h1>سوابق خرید {{ user.username }}</h1>
     {% for order in orders %}
-<<<<<<< HEAD
-        <div class="purchase-group">
-            <h2>Order Date: {{ order.created_at_jalali }}</h2>
-            <table class="purchase-table" border="1">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in order.items.all %}
-                        <tr>
-                            <td id="nast">{{ item.product.name }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td>{{ item.product.price }}</td>
-                            <td>{{ item.quantity|multiply:item.product.price }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <p>Total Price: {{ order.items.all|total_price }}</p>
-        </div>
-=======
     <div class="purchase-group">
       <h2>تاریخ سفارش : {{ order.created_at }}</h2>
       <table class="purchase-table" border="1">
@@ -175,7 +149,6 @@
       </table>
       <p dir="rtl">قیمت نهایی : {{ order.items.all|total_price }}</p>
     </div>
->>>>>>> copy
     {% endfor %}
   </body>
 
