@@ -44,21 +44,20 @@ def home(request):
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
-    order = Order.objects.filter(user=request.user, completed=False).first()
-    order_items = OrderItem.objects.filter(order=order) if order else []
-    product_quantities = {item.product.id: item.quantity for item in order_items}
-    warehouse = Warehouse.objects.first()
+    if request.user.is_authenticated():
+        order = Order.objects.filter(user=request.user, completed=False).first()
+        order_items = OrderItem.objects.filter(order=order) if order else []
+        product_quantities = {item.product.id: item.quantity for item in order_items}
+        warehouse = Warehouse.objects.first()
 
-
-    
-
-
-    return render(request, 'product_list.html', {
-        'products': products,
-        'vertical': vertical,
-        'product_quantities': product_quantities,
-        'warehouse' : warehouse
-    })
+        return render(request, 'product_list.html', {
+            'products': products,
+            'vertical': vertical,
+            'product_quantities': product_quantities,
+            'warehouse' : warehouse
+        })
+    else:
+        redirect("accounts/login")
 
 def alaki(request):
     return render(request,'alaki.html')
