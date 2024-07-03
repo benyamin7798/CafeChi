@@ -71,7 +71,7 @@ from main.models import Warehouse
 
 
 
-@login_required
+
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
     order = Order.objects.filter(user=request.user, completed=False).first()
