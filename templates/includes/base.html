@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- {% comment %} <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,7 +13,7 @@
         font-family: Nastaligh;
         src: url(/static/Fonts/IranNastaliq.ttf);
       }
-      
+
       body,
       html {
         margin: 0;
@@ -27,6 +27,7 @@
       ul.menu li {
         list-style: none;
         display: inline-block;
+        /* position: relative; */
       }
       ul.menu li a {
         display: inline-block;
@@ -35,11 +36,10 @@
         color: #f3e9dc;
         font-family: Vazir;
       }
-      .alaki :hover {
+      ul.menu li a:hover {
         background: #c08552;
         transition: 0.4s;
       }
-      
       ul.sub {
         display: none;
         position: absolute;
@@ -66,21 +66,26 @@
   <body style="background-color: #dab49d">
     <div class="nav" style="margin-top: 0px">
       <ul class="menu" style="margin: 0%">
-        <li>
-          <a  style="
+        <li
+          style="
             font-family: Nastaligh;
             font-size: 40px;
             color: #c08552;
             padding-left: 30px;
           "
-          href="{% url 'homepage' %}">کافه چی</a>
+        >
+          کافه چی
         </li>
         <li>
-          <a class= "alaki" href="">منو</a>
+          <a href="">منو</a>
 
           <ul class="sub">
-            <li><a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a></li>
-            <li><a href="{% url 'product_list' 'HOT DRINK' %}">نوشیدنی گرم</a></li>
+            <li>
+              <a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a>
+            </li>
+            <li>
+              <a href="{% url 'product_list' 'HOT DRINK' %}">نوشیدنی گرم</a>
+            </li>
             <li><a href="{% url 'product_list' 'ICE CREAM' %}">بستنی</a></li>
             <li
               style="
@@ -92,23 +97,180 @@
             </li>
           </ul>
         </li>
-        <li><a class= "alaki" href="{% url 'purchase_history' %}">سوابق خرید</a></li>
-        <li><a class= "alaki" href="{% url 'order_summary' %}">سبد خرید</a></li>
+        <li><a href="{% url 'purchase_history' %}">سوابق خرید</a></li>
+        <li><a href="{% url 'order_summary' %}">سبد خرید</a></li>
+        <li><a href="{% url 'login'%}">ورود به حساب</a></li>
+      </ul>
+    </div>
+  </body>
+</html>
+{% endcomment %}
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>CafeChi</title>
+    <style>
+      @font-face {
+        font-family: Vazir;
+        src: url(/static/Fonts/Vazir-Bold.woff2);
+      }
+      @font-face {
+        font-family: Nastaligh;
+        src: url(/static/Fonts/IranNastaliq.ttf);
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      div.nav {
+        direction: rtl;
+        background-color: #5e3023;
+        padding-right: 10px;
+      }
+      ul.menu li {
+        list-style: none;
+        display: inline-block;
+      }
+      ul.menu li a {
+        display: inline-block;
+        text-decoration: none;
+        padding: 30px;
+        color: #f3e9dc;
+        font-family: Vazir;
+      }
+      .hov :hover {
+        background: #c08552;
+        transition: 0.4s;
+      }
+      ul.menu li a.titr:hover {
+        background: none;
+      }
+      ul.sub {
+        display: none;
+        position: absolute;
+        z-index: 2;
+      }
+      ul.menu li:hover ul.sub {
+        display: block;
+        color: #c08552;
+        transition: 0.4s;
+      }
+      ul.sub li {
+        display: block;
+        background-color: #c08552;
+        border-bottom: 3px solid #5e3023;
+      }
+      ul.sub li a:hover {
+        color: #5e3023;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        transition: 0.3s;
+      }
+      .logout-button:hover {
+        background: #c08552;
+        transition: 0.3s;
+      }
+    </style>
+  </head>
+  <body style="background-color: #dab49d">
+    <div class="nav" style="margin-top: 0px">
+      <ul class="menu" style="margin: 0%">
+        <li>
+          <a
+            href="{% url 'homepage' %}"
+            class="titr"
+            style="
+              font-family: Nastaligh;
+              font-size: 40px;
+              color: #c08552;
+              padding: 0px;
+            "
+          >
+            کافه چی
+          </a>
+        </li>
+        <li>
+          <a href=""> <i class="fa-solid fa-bars"></i> منو</a>
+
+          <ul class="sub">
+            <li>
+              <a href="{% url 'product_list' 'COLD DRINK' %}">نوشیدنی سرد</a>
+            </li>
+            <li>
+              <a href="{% url 'product_list' 'HOT DRINK' %}">نوشیدنی گرم</a>
+            </li>
+            <li><a href="{% url 'product_list' 'ICE CREAM' %}">بستنی</a></li>
+            <li
+              style="
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+              "
+            >
+              <a href="{% url 'product_list' 'CAKE' %}">کیک</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="{% url 'purchase_history' %}">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            سوابق خرید
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'order_summary' %}"
+            >  <i class="fa-solid fa-cart-shopping"></i> سبد خرید</i>
+          </a>
+        </li>
 
         {% if user.is_authenticated %}
-  <li>
-    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
-      {% csrf_token %}
-      <button type="submit" style="background: none; border: none; color: #f3e9dc; cursor: pointer; font-family: Vazir; padding: 30px;">خروج از حساب کاربری</button>
-    </form>
-  </li>
-  {% if user.is_staff %}
-    <li style="float: center"><a class= "alaki" href="{% url 'dashbord' %}">صفحه مدیریت</a></li>
-  {% endif %}
-  {% else %}
-    <li><a class= "alaki" href="{% url 'login' %}">ورود به حساب</a></li>
-  {% endif %}
-
+        <li>
+          <form
+            id="logout-form"
+            method="POST"
+            action="{% url 'logout' %}"
+            style="display: inline"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              style="
+                background: none;
+                border: none;
+                color: #f3e9dc;
+                cursor: pointer;
+                font-family: Vazir;
+                padding: 30px;
+              "
+            >
+              <i class="fa-solid fa-right-from-bracket"></i>
+              خروج از حساب کاربری
+            </button>
+          </form>
+        </li>
+        {% if user.is_staff %}
+        <li style="float: center">
+          <a href="{% url 'dashbord' %}"> <i class="fa-solid fa-user"></i>صفحه مدیریت</a>
+        </li>
+        {% endif %} {% else %}
+        <li>
+          <a href="{% url 'login' %}">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            ورود به حساب
+          </a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </body>
