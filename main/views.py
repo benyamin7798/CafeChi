@@ -1,13 +1,8 @@
 # views.py
 from django.shortcuts import render,redirect
 from django.views.generic import ListView,TemplateView
-<<<<<<< HEAD
-from .models import Product
-from shopping_cart.models import Order
-=======
 from .models import Product,Warehouse
 from shopping_cart.models import Order,OrderItem
->>>>>>> Ben
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -40,14 +35,6 @@ def home(request):
 
 def product_list_view(request, vertical):
     products = Product.objects.filter(vertical=vertical)
-<<<<<<< HEAD
-    return render(request, 'product_list.html', {'products': products, 'vertical': vertical})
-
-
-    
-
-
-=======
     if request.user.is_authenticated:
         order = Order.objects.filter(user=request.user, completed=False).first()
         order_items = OrderItem.objects.filter(order=order) if order else []
@@ -61,7 +48,6 @@ def product_list_view(request, vertical):
     })
     else:
         return redirect('login')
->>>>>>> Ben
 
 def alaki(request):
     return render(request,'alaki.html')
